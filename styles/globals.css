@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #080c22;
+  color: #e2e4ff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── Material Symbols ───────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── CRT / Scanline overlays ────────────────────────────────── */
+.crt-overlay {
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.scanline-overlay {
+  background: linear-gradient(to bottom, transparent 50%, rgba(97, 244, 216, 0.05) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* ── Liquid Chrome text gradient ────────────────────────────── */
+.liquid-chrome {
+  background: linear-gradient(180deg, #61f4d8 0%, #ffffff 45%, #45fec9 55%, #08c1a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(97, 244, 216, 0.4));
+}
+
+.liquid-metal-text {
+  background: linear-gradient(to bottom, #ffffff 30%, #61f4d8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Mechanical Flap ────────────────────────────────────────── */
+.mechanical-flap {
+  perspective: 1000px;
+}
+
+/* ── Circuit dot-grid background ────────────────────────────── */
+.circuit-bg {
+  background-image: radial-gradient(#61f4d8 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+}
+
+.mesh-bg {
+  background-image: radial-gradient(circle at 2px 2px, rgba(97, 244, 216, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* ── Gradient mesh radial ────────────────────────────────────── */
+.gradient-mesh {
+  background: radial-gradient(circle at 50% 50%, #08c1a622 0%, #080c22 70%);
+}
+
+/* ── Marquee ─────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+/* ── Flicker ─────────────────────────────────────────────────── */
+@keyframes flicker {
+  0%   { opacity: 0.97; }
+  5%   { opacity: 0.95; }
+  10%  { opacity: 0.9; }
+  15%  { opacity: 1; }
+  20%  { opacity: 0.98; }
+  25%  { opacity: 0.95; }
+  30%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+.crt-flicker { animation: flicker 0.15s infinite; }
+
+/* ── Selection ───────────────────────────────────────────────── */
+::selection {
+  background: rgba(97, 244, 216, 0.3);
+  color: #fff;
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #080c22; }
+::-webkit-scrollbar-thumb { background: #43465f; }
+::-webkit-scrollbar-thumb:hover { background: #61f4d8; }

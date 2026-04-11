@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FINOVA 2.0 // ACCOUNT_INITIALIZATION</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(97, 244, 216, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        input:focus+.scan-effect {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .mesh-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(97, 244, 216, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#61f4d8",
+                        "surface-container-high": "#181d3b",
+                        "error": "#ff716c",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "tertiary": "#dee4ff",
+                        "on-primary": "#00594c",
+                        "secondary-fixed": "#45fec9",
+                        "on-background": "#e2e4ff",
+                        "on-secondary": "#005d47",
+                        "secondary-dim": "#2cefbc",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "error-dim": "#d7383b",
+                        "surface": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "on-error": "#490006",
+                        "on-surface": "#e2e4ff",
+                        "on-tertiary": "#475275",
+                        "tertiary-dim": "#bcc8f1",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "secondary": "#45fec9",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "tertiary-container": "#cad6ff",
+                        "error-container": "#9f0519",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-variant": "#1e2343",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-highest": "#1e2343",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-primary-fixed-variant": "#006455",
+                        "inverse-primary": "#006c5c",
+                        "background": "#080c22",
+                        "primary-dim": "#4fe5ca",
+                        "primary": "#61f4d8",
+                        "surface-tint": "#61f4d8",
+                        "surface-container-low": "#0d112a",
+                        "surface-container": "#131832",
+                        "on-primary-container": "#00332b",
+                        "on-secondary-fixed": "#004937",
+                        "primary-container": "#08c1a6",
+                        "on-secondary-fixed-variant": "#006850",
+                        "on-error-container": "#ffa8a3",
+                        "surface-bright": "#242a4c",
+                        "secondary-container": "#006c52",
+                        "on-primary-fixed": "#00443a",
+                        "tertiary-fixed": "#cad6ff",
+                        "surface-dim": "#080c22",
+                        "surface-container-lowest": "#000000",
+                        "outline": "#70748f",
+                        "on-surface-variant": "#a6a9c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 overflow-x-hidden">
+    <!-- CRT Overlay & Background -->
+    <div class="fixed inset-0 crt-overlay z-[60] pointer-events-none"></div>
+    <div class="fixed inset-0 mesh-bg opacity-30 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-gradient-to-tr from-surface via-surface-container-low to-primary/5 opacity-50 z-[-1]">
+    </div>
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)] flex justify-between items-center w-full px-12 py-4">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+            FINOVA 2.0
+        </div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">COMMAND</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">VAULT</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TACTICAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TERMINAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">LOGS</a>
+        </div>
+        <button
+            class="px-6 py-2 bg-[#61f4d8]/10 border border-[#61f4d8]/40 font-headline uppercase tracking-widest text-sm font-bold text-[#61f4d8] hover:bg-[#61f4d8]/20 transition-all cursor-none active:scale-95">
+            INITIALIZE
+        </button>
+    </nav>
+    <!-- Main Content Shell -->
+    <main class="min-h-screen pt-32 pb-24 px-4 flex flex-col items-center justify-center relative overflow-hidden">
+        <!-- Registration Container -->
+        <div
+            class="w-full max-w-2xl bg-surface-container-lowest/80 border border-outline-variant/30 relative shadow-2xl backdrop-blur-sm">
+            <!-- Progress Header -->
+            <div class="w-full h-1 bg-surface-container-high relative overflow-hidden">
+                <div class="absolute inset-y-0 left-0 bg-primary w-[35%] shadow-[0_0_10px_#61f4d8]"></div>
+                <div class="absolute inset-y-0 left-[35%] w-12 bg-white/20 animate-pulse"></div>
+            </div>
+            <div class="p-8 md:p-12">
+                <!-- Branding & Title -->
+                <header class="mb-12 border-l-4 border-primary pl-6">
+                    <p class="font-headline text-[10px] uppercase tracking-[0.4em] text-primary mb-2">Protocol:
+                        Softlaunch_v2.0</p>
+                    <h1 class="font-headline text-4xl font-black text-white tracking-tighter uppercase leading-none">
+                        Establish <span class="text-primary">Identity</span>
+                    </h1>
+                    <p class="text-on-surface-variant font-mono text-xs mt-2 uppercase tracking-tight">Accessing MIT
+                        Manipal secure node // Registration required.</p>
+                </header>
+                <!-- Action: Google OAuth -->
+                <div class="mb-10">
+                    <button
+                        class="w-full group flex items-center justify-center gap-4 bg-surface-container-highest border border-outline-variant/40 py-4 hover:border-primary/60 transition-all active:scale-[0.98] relative overflow-hidden">
+                        <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <img alt="Google Icon" class="w-5 h-5 invert opacity-70 group-hover:opacity-100"
+                            data-alt="Official Google icon logo in white grayscale for dark theme integration"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc5KaQvenDABAucEogHztfVeswpGHrv1nhIjgEmiIJwvWt_TJz0cpJlBimQmJrbX9GfTHTB9oGYoZCyikIdbIEH79uNXlyDWT6X5R1cazj6ymdqctkP0C-o528lv1Ev3u4pjJX7GOzqpBwRlLYwfRNSAE2VngS7MfvMq8T28X9Kvf2VuNQAAmr-ctBiBse53M7vybM0kSPFNRIbraNCMRI4vK5KPe9p7kVl3PuzRCHbHOfKqjmaPEsVn2i6JsSmhcshXeNt6eQ71wr" />
+                        <span class="font-headline font-bold text-sm tracking-widest uppercase">INITIALIZE WITH MIT
+                            EMAIL</span>
+                    </button>
+                    <div class="flex items-center gap-4 my-8">
+                        <div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+                        <span class="font-mono text-[10px] text-on-surface-variant uppercase">Manual Override</span>
+                        <div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+                    </div>
+                </div>
+                <!-- Registration Form -->
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Full Name -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Legal_Name</label>
+                            <input
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all transition-all peer"
+                                placeholder="COMMANDER NAME" type="text" />
+                            <div
+                                class="scan-effect absolute inset-0 bg-primary opacity-0 pointer-events-none transition-all duration-300">
+                            </div>
+                        </div>
+                        <!-- MIT Email -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Email_Node
+                                (MIT)</label>
+                            <input
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all peer"
+                                placeholder="USER@LEARNER.MANIPAL.EDU" type="email" />
+                            <div
+                                class="scan-effect absolute inset-0 bg-primary opacity-0 pointer-events-none transition-all duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Roll Number -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Roll_ID</label>
+                            <input
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all peer"
+                                placeholder="21XXXXXX" type="text" />
+                            <div
+                                class="scan-effect absolute inset-0 bg-primary opacity-0 pointer-events-none transition-all duration-300">
+                            </div>
+                        </div>
+                        <!-- Branch -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Sector_Branch</label>
+                            <select
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white font-mono text-sm py-3 px-4 transition-all appearance-none">
+                                <option>CSE</option>
+                                <option>IT</option>
+                                <option>CCE</option>
+                                <option>DSE</option>
+                                <option>OTHER</option>
+                            </select>
+                        </div>
+                        <!-- Year -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Pilot_Year</label>
+                            <select
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white font-mono text-sm py-3 px-4 transition-all appearance-none">
+                                <option>2021</option>
+                                <option>2022</option>
+                                <option>2023</option>
+                                <option>2024</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Phone -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Comms_Link
+                                (PH)</label>
+                            <input
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all peer"
+                                placeholder="+91 XXXX-XXXX" type="tel" />
+                            <div
+                                class="scan-effect absolute inset-0 bg-primary opacity-0 pointer-events-none transition-all duration-300">
+                            </div>
+                        </div>
+                        <!-- Password -->
+                        <div class="relative">
+                            <label
+                                class="block font-headline text-[10px] uppercase tracking-widest text-on-surface-variant mb-1 ml-1">Security_Key</label>
+                            <input
+                                class="w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all peer"
+                                placeholder="••••••••" type="password" />
+                            <div
+                                class="scan-effect absolute inset-0 bg-primary opacity-0 pointer-events-none transition-all duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="pt-8">
+                        <button
+                            class="w-full bg-primary py-5 font-headline font-black text-on-primary-container text-lg tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(97,244,216,0.3)] hover:shadow-[0_0_50px_rgba(97,244,216,0.5)] transition-all active:scale-[0.97] relative group"
+                            type="submit">
+                            <span class="relative z-10">INITIALIZE ACCOUNT</span>
+                            <div
+                                class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none">
+                            </div>
+                        </button>
+                    </div>
+                    <p class="text-center font-mono text-[10px] text-on-surface-variant uppercase mt-4">
+                        By deploying, you agree to the <a class="text-primary hover:underline underline-offset-4"
+                            href="#">Security Protocol 40.B</a>
+                    </p>
+                </form>
+            </div>
+            <!-- Footer Details Decoration -->
+            <div
+                class="p-4 bg-surface-container-low border-t border-outline-variant/20 flex justify-between items-center px-8">
+                <div class="flex gap-4">
+                    <div class="w-2 h-2 bg-primary rounded-full"></div>
+                    <div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+                    <div class="w-2 h-2 bg-outline-variant rounded-full"></div>
+                </div>
+                <div class="font-mono text-[10px] text-on-surface-variant">NODE_TYPE: REGISTRATION_STATION_004</div>
+            </div>
+        </div>
+        <!-- Decorative Floating Elements -->
+        <div class="absolute top-1/4 -left-12 w-64 h-64 bg-primary/5 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-1/4 -right-12 w-96 h-96 bg-primary-container/10 rounded-full blur-[140px] pointer-events-none">
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-black bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px] flex flex-col items-center gap-6 w-full overflow-hidden">
+        <div class="font-mono text-[10px] tracking-[0.2em] text-[#61f4d8] uppercase">
+            © 2124 FINOVA_SYSTEMS_GLOBAL // ENCRYPTED_CONNECTION
+        </div>
+        <div class="flex gap-8">
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em] uppercase"
+                href="#">PROTOCOL</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em] uppercase"
+                href="#">RECORDS</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em] uppercase"
+                href="#">SECURITY_CORE</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em] uppercase"
+                href="#">UPTIME</a>
+        </div>
+    </footer>
+</body>
+
+</html>

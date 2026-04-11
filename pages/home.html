@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FINOVA 2.0 | SOFTLAUNCH</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;family=Roboto+Mono&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#61f4d8",
+                        "surface-container-high": "#181d3b",
+                        "error": "#ff716c",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "tertiary": "#dee4ff",
+                        "on-primary": "#00594c",
+                        "secondary-fixed": "#45fec9",
+                        "on-background": "#e2e4ff",
+                        "on-secondary": "#005d47",
+                        "secondary-dim": "#2cefbc",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "error-dim": "#d7383b",
+                        "surface": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "on-error": "#490006",
+                        "on-surface": "#e2e4ff",
+                        "on-tertiary": "#475275",
+                        "tertiary-dim": "#bcc8f1",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "secondary": "#45fec9",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "tertiary-container": "#cad6ff",
+                        "error-container": "#9f0519",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-variant": "#1e2343",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-highest": "#1e2343",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-primary-fixed-variant": "#006455",
+                        "inverse-primary": "#006c5c",
+                        "background": "#080c22",
+                        "primary-dim": "#4fe5ca",
+                        "primary": "#61f4d8",
+                        "surface-tint": "#61f4d8",
+                        "surface-container-low": "#0d112a",
+                        "surface-container": "#131832",
+                        "on-primary-container": "#00332b",
+                        "on-secondary-fixed": "#004937",
+                        "primary-container": "#08c1a6",
+                        "on-secondary-fixed-variant": "#006850",
+                        "on-error-container": "#ffa8a3",
+                        "surface-bright": "#242a4c",
+                        "secondary-container": "#006c52",
+                        "on-primary-fixed": "#00443a",
+                        "tertiary-fixed": "#cad6ff",
+                        "surface-dim": "#080c22",
+                        "surface-container-lowest": "#000000",
+                        "outline": "#70748f",
+                        "on-surface-variant": "#a6a9c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["Roboto Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .liquid-chrome {
+            background: linear-gradient(180deg, #61f4d8 0%, #ffffff 45%, #45fec9 55%, #08c1a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(97, 244, 216, 0.4));
+        }
+
+        .mechanical-flap {
+            perspective: 1000px;
+        }
+
+        .circuit-bg {
+            background-image: radial-gradient(#61f4d8 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body overflow-x-hidden">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)] flex justify-between items-center px-12 py-4">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-['Space_Grotesk']">
+            FINOVA 2.0
+        </div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-[#61f4d8] border-b-2 border-[#61f4d8] pb-1"
+                href="#">COMMAND</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">VAULT</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TACTICAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TERMINAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">LOGS</a>
+        </div>
+        <button
+            class="bg-[#61f4d8]/10 border border-[#61f4d8] px-6 py-2 font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-[#61f4d8] hover:bg-[#61f4d8]/20 hover:shadow-[0_0_15px_rgba(97,244,216,0.3)] transition-all cursor-none active:scale-95">
+            INITIALIZE
+        </button>
+    </nav>
+    <!-- Hero Section -->
+    <section class="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+        <div class="absolute inset-0 circuit-bg opacity-20 pointer-events-none"></div>
+        <div class="absolute inset-0 crt-overlay"></div>
+        <!-- Floating Badges -->
+        <div class="absolute top-1/4 left-10 md:left-24 animate-pulse">
+            <div
+                class="bg-surface-container-highest/80 backdrop-blur-md border border-primary/30 p-4 shadow-[0_0_20px_rgba(97,244,216,0.2)]">
+                <p class="font-mono text-[10px] text-primary tracking-widest">PRIZE_POOL</p>
+                <p class="font-headline text-2xl font-black text-white">$15,000+</p>
+            </div>
+        </div>
+        <div class="absolute bottom-1/4 right-10 md:right-24 animate-bounce">
+            <div
+                class="bg-surface-container-highest/80 backdrop-blur-md border border-secondary/30 p-4 shadow-[0_0_20px_rgba(69,254,201,0.2)]">
+                <p class="font-mono text-[10px] text-secondary tracking-widest">ECOSYSTEM</p>
+                <p class="font-headline text-2xl font-black text-white">600+ BUILDERS</p>
+            </div>
+        </div>
+        <!-- Hero Content -->
+        <div class="z-10 mt-20">
+            <h1
+                class="text-6xl md:text-[10rem] font-black leading-none liquid-chrome font-headline tracking-tighter mb-4">
+                SOFTLAUNCH 2.0
+            </h1>
+            <div class="flex items-center justify-center gap-2 mb-12">
+                <span class="material-symbols-outlined text-primary"
+                    style="font-variation-settings: 'FILL' 1;">terminal</span>
+                <p class="font-mono text-lg md:text-xl text-primary-fixed tracking-tight opacity-90">
+                    Finance × Technology × MIT Manipal_
+                </p>
+            </div>
+            <!-- Mechanical Countdown -->
+            <div class="flex gap-4 justify-center items-center mb-16">
+                <div class="flex flex-col items-center">
+                    <div
+                        class="bg-surface-container-lowest border-y border-outline-variant p-4 mechanical-flap w-20 md:w-32">
+                        <span class="text-4xl md:text-6xl font-black font-headline text-white">16</span>
+                    </div>
+                    <span class="font-mono text-[10px] text-on-surface-variant mt-2">DAYS</span>
+                </div>
+                <span class="text-primary text-4xl">:</span>
+                <div class="flex flex-col items-center">
+                    <div
+                        class="bg-surface-container-lowest border-y border-outline-variant p-4 mechanical-flap w-20 md:w-32">
+                        <span class="text-4xl md:text-6xl font-black font-headline text-white">19</span>
+                    </div>
+                    <span class="font-mono text-[10px] text-on-surface-variant mt-2">HOURS</span>
+                </div>
+                <span class="text-primary text-4xl">:</span>
+                <div class="flex flex-col items-center">
+                    <div
+                        class="bg-surface-container-lowest border-y border-outline-variant p-4 mechanical-flap w-20 md:w-32">
+                        <span class="text-4xl md:text-6xl font-black font-headline text-white">42</span>
+                    </div>
+                    <span class="font-mono text-[10px] text-on-surface-variant mt-2">MINS</span>
+                </div>
+            </div>
+            <button
+                class="group relative px-12 py-5 bg-primary-fixed text-on-primary-container font-headline font-black text-xl tracking-widest hover:shadow-[0_0_50px_rgba(97,244,216,0.6)] transition-all transform hover:-translate-y-1 active:scale-95">
+                INITIALIZE REGISTRATION
+                <span class="absolute -right-2 -top-2 bg-white text-black text-[10px] px-1 font-mono">LIVE_NOW</span>
+            </button>
+        </div>
+    </section>
+    <!-- About Terminal Section -->
+    <section class="py-24 px-12 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8">
+            <h2 class="text-4xl font-black font-headline text-primary-fixed uppercase tracking-tighter">
+                [SYSTEM_MANIFESTO]
+            </h2>
+            <div
+                class="bg-surface-container-low p-8 border-l-4 border-primary-fixed font-mono text-on-surface-variant leading-relaxed">
+                <p class="mb-4">&gt; FINOVA is the nexus where decentralized protocols meet academic excellence.</p>
+                <p class="mb-4">&gt; We are re-engineering the financial stack from the ground up at MIT Manipal.</p>
+                <p class="text-white">&gt; Deploying 48-hour sprints, expert workshops, and tactical networking
+                    protocols.</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="flex flex-col">
+                    <span class="text-primary text-3xl font-black">72H</span>
+                    <span class="font-mono text-[10px] uppercase">Execution</span>
+                </div>
+                <div class="w-px h-12 bg-outline-variant"></div>
+                <div class="flex flex-col">
+                    <span class="text-primary text-3xl font-black">12+</span>
+                    <span class="font-mono text-[10px] uppercase">Protocols</span>
+                </div>
+            </div>
+        </div>
+        <div class="relative group">
+            <div class="absolute inset-0 bg-primary/20 blur-3xl opacity-30 group-hover:opacity-50 transition-opacity">
+            </div>
+            <img alt="Finova Core"
+                class="relative z-10 w-full h-[400px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                data-alt="futuristic digital architecture with blue and teal data streams and holographic geometric shapes in a dark tech setting"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK1Lgtg26pZe64ojDXu8WQPsdBetxwieKYT3fKl0vy-XB12WBQnIZY7a8fL7l_VkVSv54OH9yMCvYbVsSRPvOiQqCNgUd1PObFI-9ioleIojdFENf7wLlHTFu6toIeYm1rGKYUntmIvzU0j316kF2JIGUVIQB32T38PhNwYsOga1r644_IqsjEQXu94xYSm3EbyUYZQC9FpfCSMRitU6RK6FJX3UAxcbgFMp7NoAeW2nfKKZUrPztt_Z3vd4wpAViv2UuW4PpfEFaf" />
+            <div class="absolute top-0 right-0 p-4 z-20 text-primary font-mono text-xs">SCAN_001.JPG</div>
+        </div>
+    </section>
+    <!-- Tactical Events Bento Grid -->
+    <section class="py-24 px-12 bg-surface-container-low">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <p class="font-mono text-primary text-sm tracking-[0.4em] mb-2">OPERATIONAL_SCOPE</p>
+                    <h2 class="text-5xl font-black font-headline uppercase tracking-tighter">Tactical Events</h2>
+                </div>
+                <button
+                    class="font-mono text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+                    VIEW_FULL_CALENDAR <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Main Hackathon -->
+                <div
+                    class="md:col-span-2 md:row-span-2 bg-surface-container-highest p-8 relative overflow-hidden group">
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <span
+                                class="bg-primary/20 text-primary px-3 py-1 font-mono text-[10px] border border-primary/40">PRIMARY_NODE</span>
+                            <h3 class="text-4xl font-black font-headline mt-6 mb-4">THE FIN-SPRINT HACKATHON</h3>
+                            <p class="text-on-surface-variant font-body">48 hours of high-velocity development. Build
+                                the next generation of DeFi infrastructure.</p>
+                        </div>
+                        <div class="mt-12 flex justify-between items-end">
+                            <span class="font-mono text-2xl text-primary">$10K_PRIZE</span>
+                            <span
+                                class="material-symbols-outlined text-4xl group-hover:translate-x-2 transition-transform">bolt</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 right-0 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <span class="material-symbols-outlined text-[15rem]"
+                            style="font-variation-settings: 'FILL' 1;">code</span>
+                    </div>
+                </div>
+                <!-- Workshop -->
+                <div
+                    class="md:col-span-2 bg-surface p-6 border-r-4 border-secondary transition-all hover:bg-surface-bright">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-mono text-[10px] text-secondary">TACTICAL_INTEL</p>
+                            <h3 class="text-xl font-bold font-headline mt-2">ALGO-TRADING WORKSHOP</h3>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary">monitoring</span>
+                    </div>
+                    <p class="mt-4 text-on-surface-variant text-sm">Deep dive into HFT and quantitative strategies with
+                        industry veterans.</p>
+                </div>
+                <!-- Networking -->
+                <div class="bg-surface-container p-6 hover:shadow-[inset_0_0_20px_rgba(97,244,216,0.1)] transition-all">
+                    <p class="font-mono text-[10px] text-primary">NETWORK</p>
+                    <h3 class="text-xl font-bold font-headline mt-2">FOUNDER_CONNECT</h3>
+                    <span class="material-symbols-outlined mt-4 text-primary">hub</span>
+                </div>
+                <!-- Recruitment -->
+                <div class="bg-surface-container p-6 hover:shadow-[inset_0_0_20px_rgba(69,254,201,0.1)] transition-all">
+                    <p class="font-mono text-[10px] text-secondary">CAREERS</p>
+                    <h3 class="text-xl font-bold font-headline mt-2">TALENT_PIPELINE</h3>
+                    <span class="material-symbols-outlined mt-4 text-secondary">person_search</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Sponsors Strip -->
+    <section class="py-12 border-y border-outline-variant bg-black">
+        <div class="max-w-7xl mx-auto px-12">
+            <p class="font-mono text-[10px] text-center text-on-surface-variant tracking-[0.5em] mb-8 uppercase">
+                Synchronized Entities</p>
+            <div
+                class="flex flex-wrap justify-center gap-12 md:gap-24 opacity-50 grayscale hover:grayscale-0 transition-all">
+                <div class="flex items-center gap-2 font-headline font-bold text-2xl text-white">
+                    <span class="material-symbols-outlined text-primary">token</span> NEXUS_DEFI
+                </div>
+                <div class="flex items-center gap-2 font-headline font-bold text-2xl text-white">
+                    <span class="material-symbols-outlined text-secondary">security</span> VANGUARD
+                </div>
+                <div class="flex items-center gap-2 font-headline font-bold text-2xl text-white">
+                    <span class="material-symbols-outlined text-primary">rocket_launch</span> ORBITAL
+                </div>
+                <div class="flex items-center gap-2 font-headline font-bold text-2xl text-white">
+                    <span class="material-symbols-outlined text-secondary">database</span> CORE_DATA
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-black bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px] flex flex-col items-center gap-6 overflow-hidden">
+        <div class="z-10 flex gap-8">
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                href="#">PROTOCOL</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                href="#">RECORDS</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                href="#">SECURITY_CORE</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                href="#">UPTIME</a>
+        </div>
+        <p class="z-10 font-mono text-[10px] tracking-[0.2em] text-[#61f4d8]">
+            © 2124 FINOVA_SYSTEMS_GLOBAL // ENCRYPTED_CONNECTION
+        </p>
+        <div
+            class="absolute bottom-0 w-full h-1 bg-gradient-to-r from-transparent via-[#61f4d8] to-transparent opacity-30">
+        </div>
+    </footer>
+</body>
+
+</html>

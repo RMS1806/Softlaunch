@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SECTOR COMMAND | FINOVA 2.0</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Roboto+Mono&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#0d112a",
+                        "surface-variant": "#1e2343",
+                        "inverse-surface": "#fbf8ff",
+                        "secondary": "#45fec9",
+                        "primary-container": "#08c1a6",
+                        "outline-variant": "#43465f",
+                        "tertiary-dim": "#bcc8f1",
+                        "on-tertiary-fixed": "#2b3758",
+                        "error-container": "#9f0519",
+                        "on-primary-fixed-variant": "#006455",
+                        "outline": "#70748f",
+                        "surface-container": "#131832",
+                        "on-secondary": "#005d47",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "surface-tint": "#61f4d8",
+                        "surface-bright": "#242a4c",
+                        "on-surface-variant": "#a6a9c6",
+                        "inverse-primary": "#006c5c",
+                        "on-primary-container": "#00332b",
+                        "error-dim": "#d7383b",
+                        "background": "#080c22",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "on-primary-fixed": "#00443a",
+                        "secondary-container": "#006c52",
+                        "surface-dim": "#080c22",
+                        "on-secondary-fixed-variant": "#006850",
+                        "on-error-container": "#ffa8a3",
+                        "on-surface": "#e2e4ff",
+                        "on-error": "#490006",
+                        "on-background": "#e2e4ff",
+                        "tertiary": "#dee4ff",
+                        "primary": "#61f4d8",
+                        "secondary-fixed": "#45fec9",
+                        "inverse-on-surface": "#50536d",
+                        "tertiary-fixed": "#cad6ff",
+                        "surface": "#080c22",
+                        "surface-container-high": "#181d3b",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-tertiary": "#475275",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "error": "#ff716c",
+                        "tertiary-container": "#cad6ff",
+                        "primary-dim": "#4fe5ca",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "primary-fixed": "#61f4d8",
+                        "surface-container-highest": "#1e2343",
+                        "surface-container-lowest": "#000000",
+                        "on-primary": "#00594c",
+                        "on-secondary-fixed": "#004937",
+                        "secondary-dim": "#2cefbc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["Roboto Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-image:
+                linear-gradient(rgba(97, 244, 216, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(97, 244, 216, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .scanline {
+            background: linear-gradient(to bottom,
+                    rgba(18, 16, 16, 0) 50%,
+                    rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .glow-teal {
+            box-shadow: 0 0 15px rgba(97, 244, 216, 0.3);
+        }
+
+        .border-glow {
+            border: 1px solid rgba(97, 244, 216, 0.2);
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(8, 12, 34, 0.8);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body min-h-screen">
+    <div class="fixed inset-0 scanline z-[100] opacity-30"></div>
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-teal-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.9)] flex justify-between items-center h-16 px-6">
+        <div class="flex items-center gap-8">
+            <div
+                class="text-2xl font-black italic tracking-widest text-teal-400 drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline uppercase">
+                SECTOR COMMAND</div>
+            <nav class="hidden md:flex gap-6 font-headline tracking-tighter uppercase text-xs">
+                <a class="text-teal-400 border-b-2 border-teal-400 pb-1 glow-teal-400 transition-all duration-150"
+                    href="#">DEPLOYMENT</a>
+                <a class="text-teal-900/60 hover:text-teal-400 transition-colors" href="#">INTEL</a>
+                <a class="text-teal-900/60 hover:text-teal-400 transition-colors" href="#">NODES</a>
+                <a class="text-teal-900/60 hover:text-teal-400 transition-colors" href="#">OVERRIDE</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <div
+                class="relative flex items-center bg-surface-container-lowest border border-outline-variant/30 px-3 py-1">
+                <span class="material-symbols-outlined text-primary text-sm mr-2">search</span>
+                <input
+                    class="bg-transparent border-none focus:ring-0 text-xs font-mono w-48 text-primary placeholder-primary/30"
+                    placeholder="QUERY_SYSTEM..." type="text" />
+            </div>
+            <button class="text-teal-400 hover:bg-teal-500/10 p-2 transition-all duration-150"><span
+                    class="material-symbols-outlined">notifications_active</span></button>
+            <button class="text-teal-400 hover:bg-teal-500/10 p-2 transition-all duration-150"><span
+                    class="material-symbols-outlined">settings_input_component</span></button>
+            <img alt="Admin Avatar" class="w-8 h-8 grayscale brightness-125 border border-teal-400"
+                data-alt="close-up portrait of a tech administrator with cybernetic facial enhancements under cold blue studio lighting"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC82d30BSO_hpylqoWZMJEdwDyisPRlcM-FVunsW-E6VyEdosuUPFSIml304bLWNK2dOUTpJtXoOEbgZmx-gUo9NmDONUx1sLq2hlYOvQtjskmee8rHE6AWf9RoRqmolZI04o3AKhSokcVfTBFpSlKl2H_pSH1fJOfz9KH1QXDtZm7gZ2l6hoVgOK3Sk7JA7PBgPH7Rl4CMQodIvWWAEwgQDzxAFlW4dyap6thm9r10Ilzow7NEBmlWbFZh3D80upenWOT8LRA37Wdm" />
+        </div>
+    </header>
+    <div class="flex pt-16 min-h-screen">
+        <!-- SideNavBar -->
+        <aside
+            class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-slate-950 border-r border-teal-500/10 hidden md:flex flex-col py-8 z-40">
+            <div class="px-6 mb-8 border-l-4 border-teal-400 py-2 bg-teal-500/5">
+                <div class="text-teal-400 font-headline text-sm font-bold tracking-widest uppercase">OP_ADMIN_01</div>
+                <div class="text-teal-900/60 text-[10px] font-mono tracking-tighter">CLEARANCE: LEVEL_5</div>
+            </div>
+            <nav class="flex-1 px-2 space-y-1">
+                <a class="flex items-center gap-3 bg-teal-500/20 text-teal-400 border-l-4 border-teal-400 px-4 py-3 font-headline text-xs font-bold tracking-widest hover:translate-x-1 duration-200 transition-transform"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">dashboard</span>
+                    <span>COMMAND_CENTER</span>
+                </a>
+                <a class="flex items-center gap-3 text-teal-900/70 px-4 py-3 opacity-60 font-headline text-xs font-bold tracking-widest hover:bg-teal-500/5 hover:text-teal-200 hover:translate-x-1 duration-200 transition-transform"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">group</span>
+                    <span>RECRUITS</span>
+                </a>
+                <a class="flex items-center gap-3 text-teal-900/70 px-4 py-3 opacity-60 font-headline text-xs font-bold tracking-widest hover:bg-teal-500/5 hover:text-teal-200 hover:translate-x-1 duration-200 transition-transform"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">hub</span>
+                    <span>DISTRIBUTION</span>
+                </a>
+                <a class="flex items-center gap-3 text-teal-900/70 px-4 py-3 opacity-60 font-headline text-xs font-bold tracking-widest hover:bg-teal-500/5 hover:text-teal-200 hover:translate-x-1 duration-200 transition-transform"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">analytics</span>
+                    <span>LOG_STREAM</span>
+                </a>
+                <a class="flex items-center gap-3 text-teal-900/70 px-4 py-3 opacity-60 font-headline text-xs font-bold tracking-widest hover:bg-teal-500/5 hover:text-teal-200 hover:translate-x-1 duration-200 transition-transform"
+                    href="#">
+                    <span class="material-symbols-outlined text-lg">terminal</span>
+                    <span>TERMINAL_CMD</span>
+                </a>
+            </nav>
+            <div class="px-4 mt-auto space-y-4">
+                <button
+                    class="w-full bg-teal-500 text-on-primary font-headline text-[10px] font-black tracking-widest py-3 px-2 hover:brightness-110 active:scale-95 transition-all">
+                    INITIATE_SYSTEM_OVERRIDE
+                </button>
+                <div class="pt-4 border-t border-teal-500/10 space-y-1">
+                    <a class="flex items-center gap-3 text-error/60 px-4 py-2 text-[10px] font-bold tracking-widest hover:text-error transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-sm">security</span>
+                        <span>LOCKDOWN</span>
+                    </a>
+                    <a class="flex items-center gap-3 text-teal-900/60 px-4 py-2 text-[10px] font-bold tracking-widest hover:text-teal-400 transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-sm">power_settings_new</span>
+                        <span>LOGOUT</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-8">
+            <!-- Analytics Core -->
+            <section class="mb-10">
+                <div class="flex items-end gap-2 mb-6 border-b border-teal-500/20 pb-2">
+                    <h2 class="font-headline text-2xl font-bold tracking-tighter text-white">ANALYTICS CORE</h2>
+                    <span class="text-teal-500 font-mono text-[10px] mb-1">[SYSTEM_READY_STABLE]</span>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-surface-container-high border-glow p-6 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span
+                                class="text-primary/60 font-headline text-xs tracking-widest font-bold">TOTAL_SIGNUPS</span>
+                            <span class="material-symbols-outlined text-primary">person_add</span>
+                        </div>
+                        <div class="mt-8">
+                            <div class="text-5xl font-headline font-black text-white tracking-tighter">4,892</div>
+                            <div class="flex items-center gap-2 text-secondary text-xs font-mono mt-2">
+                                <span class="material-symbols-outlined text-sm">trending_up</span>
+                                +12.4% FROM PREV_CYCLE
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-high border-glow p-6 flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span
+                                class="text-primary/60 font-headline text-xs tracking-widest font-bold">TEAM_FORMATIONS</span>
+                            <span class="material-symbols-outlined text-primary">groups</span>
+                        </div>
+                        <div class="mt-8">
+                            <div class="text-5xl font-headline font-black text-white tracking-tighter">1,204</div>
+                            <div class="flex items-center gap-2 text-primary text-xs font-mono mt-2">
+                                <span class="material-symbols-outlined text-sm">check_circle</span>
+                                89% COMPLETION_RATE
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-surface-container-high border-glow p-6 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-5 pointer-events-none">
+                            <img class="w-full h-full object-cover"
+                                data-alt="abstract digital pattern of circuit lines and binary data points in deep teal and cyan colors"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh3iEJy02amxZOQ_rnfPEG6Po7UIRfKjmhGZWohcD0wK5oQvG5c_dOdQRYvybSiDsd6w3bzF78sRish7_r7MnQtjfgVteONElUd4FxO_QX8rL4b8fnXc6maQ4AVjsae-bY4lbd3w_vIRIXvvm3RqQXMpSrD-aGtrrc8UlvvcCu1z_xSebAZDWbkLuukYyrjSh1P8MBvXwKfY6iipF8-EcFNAkih4GLd7X4edXw465rSDtWOBHx786ttiH8MM0jJzxWNM4TkKzplonW" />
+                        </div>
+                        <div class="relative text-center">
+                            <div
+                                class="w-32 h-32 rounded-full border-[6px] border-primary/20 border-t-primary border-r-secondary flex items-center justify-center relative">
+                                <div class="absolute inset-2 border border-primary/10 rounded-full animate-pulse"></div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-black text-white font-headline">72%</div>
+                                    <div class="text-[8px] font-mono text-primary/60">BRANCH_LOAD</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-[10px] font-headline font-bold text-primary tracking-widest">
+                                BRANCH_DISTRIBUTION</div>
+                            <div class="flex justify-center gap-3 mt-2 font-mono text-[8px]">
+                                <span class="text-primary">CSE: 42%</span>
+                                <span class="text-secondary">EEE: 18%</span>
+                                <span class="text-outline">MEC: 12%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Global Pulse -->
+            <section class="mb-10">
+                <div class="bg-surface-container border-glow relative overflow-hidden">
+                    <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 bg-primary animate-pulse"></div>
+                            <h2 class="font-headline text-lg font-bold tracking-widest">GLOBAL_PULSE</h2>
+                        </div>
+                        <div class="flex gap-4 font-mono text-[10px] text-primary/40 uppercase">
+                            <span>VELOCITY: 42.8 REQ/SEC</span>
+                            <span>LATENCY: 14MS</span>
+                        </div>
+                    </div>
+                    <div class="h-64 p-8 relative">
+                        <div class="absolute inset-x-8 inset-y-12 border-b border-l border-outline-variant/30"></div>
+                        <!-- Graph Visual (Simulated) -->
+                        <svg class="w-full h-full relative z-10 overflow-visible" viewbox="0 0 1000 200">
+                            <path d="M 0 180 L 150 160 L 300 170 L 450 120 L 600 140 L 750 60 L 900 80 L 1000 20"
+                                fill="none" stroke="#61f4d8" stroke-width="3"></path>
+                            <path class="opacity-10"
+                                d="M 0 180 L 150 160 L 300 170 L 450 120 L 600 140 L 750 60 L 900 80 L 1000 20 V 200 H 0 Z"
+                                fill="url(#grad)"></path>
+                            <defs>
+                                <lineargradient id="grad" x1="0%" x2="0%" y1="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#61f4d8;stop-opacity:1"></stop>
+                                    <stop offset="100%" style="stop-color:#61f4d8;stop-opacity:0"></stop>
+                                </lineargradient>
+                            </defs>
+                            <!-- Dots -->
+                            <circle cx="450" cy="120" fill="#61f4d8" r="4"></circle>
+                            <circle cx="750" cy="60" fill="#61f4d8" r="4"></circle>
+                            <circle cx="1000" cy="20" fill="#61f4d8" r="4"></circle>
+                        </svg>
+                        <div class="flex justify-between mt-4 font-mono text-[10px] text-primary/40">
+                            <span>T-7d</span><span>T-6d</span><span>T-5d</span><span>T-4d</span><span>T-3d</span><span>T-2d</span><span>T-1d</span><span>NOW</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <!-- Registration Datastream -->
+                <div class="xl:col-span-2">
+                    <div class="bg-surface-container border-glow">
+                        <div
+                            class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-outline-variant/30">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">dataset</span>
+                                <h2 class="font-headline text-lg font-bold tracking-widest">REGISTRATION DATASTREAM</h2>
+                            </div>
+                            <button
+                                class="bg-primary/10 border border-primary/30 text-primary px-4 py-1 text-[10px] font-black tracking-widest hover:bg-primary hover:text-on-primary transition-all">
+                                EXPORT_CSV
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-surface-container-highest/50">
+                                    <tr
+                                        class="font-headline text-[10px] text-primary/60 tracking-widest border-b border-outline-variant/20 uppercase">
+                                        <th class="px-6 py-4 font-bold">UID</th>
+                                        <th class="px-6 py-4 font-bold">PARTICIPANT_NAME</th>
+                                        <th class="px-6 py-4 font-bold">BRANCH</th>
+                                        <th class="px-6 py-4 font-bold">STATUS</th>
+                                        <th class="px-6 py-4 font-bold">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="font-mono text-xs divide-y divide-outline-variant/10">
+                                    <tr class="hover:bg-primary/5 group">
+                                        <td class="px-6 py-4 text-primary/40">#00421</td>
+                                        <td class="px-6 py-4 text-white font-medium">Kaelen Vance</td>
+                                        <td class="px-6 py-4 text-primary/60">CSE_AI</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 border border-secondary text-secondary bg-secondary/10 uppercase font-bold">
+                                                <span class="w-1 h-1 bg-secondary rounded-full"></span> VERIFIED
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-primary/40 hover:text-primary transition-colors"><span
+                                                    class="material-symbols-outlined text-sm">visibility</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-primary/5 group">
+                                        <td class="px-6 py-4 text-primary/40">#00420</td>
+                                        <td class="px-6 py-4 text-white font-medium">Elena Rossi</td>
+                                        <td class="px-6 py-4 text-primary/60">EEE_EMB</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 border border-primary-container text-primary-container bg-primary-container/10 uppercase font-bold">
+                                                <span
+                                                    class="w-1 h-1 bg-primary-container rounded-full animate-pulse"></span>
+                                                PENDING
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-primary/40 hover:text-primary transition-colors"><span
+                                                    class="material-symbols-outlined text-sm">visibility</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-primary/5 group">
+                                        <td class="px-6 py-4 text-primary/40">#00419</td>
+                                        <td class="px-6 py-4 text-white font-medium">Marcus Thorne</td>
+                                        <td class="px-6 py-4 text-primary/60">MEC_ROB</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 border border-secondary text-secondary bg-secondary/10 uppercase font-bold">
+                                                <span class="w-1 h-1 bg-secondary rounded-full"></span> VERIFIED
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-primary/40 hover:text-primary transition-colors"><span
+                                                    class="material-symbols-outlined text-sm">visibility</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-primary/5 group">
+                                        <td class="px-6 py-4 text-primary/40">#00418</td>
+                                        <td class="px-6 py-4 text-white font-medium">Sarah Jenkins</td>
+                                        <td class="px-6 py-4 text-primary/60">CSE_CYBER</td>
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 text-[10px] px-2 py-0.5 border border-error text-error bg-error/10 uppercase font-bold">
+                                                <span class="w-1 h-1 bg-error rounded-full"></span> FLAGGED
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <button class="text-primary/40 hover:text-primary transition-colors"><span
+                                                    class="material-symbols-outlined text-sm">visibility</span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tactical Config -->
+                <div class="xl:col-span-1">
+                    <div class="bg-surface-container border-glow h-full">
+                        <div class="p-6 border-b border-outline-variant/30 flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">tune</span>
+                            <h2 class="font-headline text-lg font-bold tracking-widest">TACTICAL CONFIG</h2>
+                        </div>
+                        <div class="p-6 space-y-8">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div
+                                            class="text-xs font-headline font-bold text-white uppercase tracking-wider">
+                                            HACKATHON_GATE</div>
+                                        <div class="text-[10px] font-mono text-primary/40 uppercase">Open status for
+                                            global registration</div>
+                                    </div>
+                                    <button
+                                        class="relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none">
+                                        <span class="absolute h-full w-full rounded-full bg-secondary"></span>
+                                        <span
+                                            class="translate-x-2.5 inline-block h-3 w-3 transform rounded-full bg-black shadow ring-0 transition duration-200 ease-in-out"></span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div
+                                            class="text-xs font-headline font-bold text-white uppercase tracking-wider">
+                                            WORKSHOP_STREAM</div>
+                                        <div class="text-[10px] font-mono text-primary/40 uppercase">Enable technical
+                                            workshop enrollments</div>
+                                    </div>
+                                    <button
+                                        class="relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none">
+                                        <span class="absolute h-full w-full rounded-full bg-secondary"></span>
+                                        <span
+                                            class="translate-x-2.5 inline-block h-3 w-3 transform rounded-full bg-black shadow ring-0 transition duration-200 ease-in-out"></span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center justify-between opacity-50">
+                                    <div>
+                                        <div
+                                            class="text-xs font-headline font-bold text-white uppercase tracking-wider">
+                                            SPEAKER_PORTAL</div>
+                                        <div class="text-[10px] font-mono text-primary/40 uppercase">Guest lecturer
+                                            authentication hub</div>
+                                    </div>
+                                    <button
+                                        class="relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-full focus:outline-none">
+                                        <span
+                                            class="absolute h-full w-full rounded-full bg-surface-container-highest border border-outline-variant"></span>
+                                        <span
+                                            class="translate-x-[-10px] inline-block h-3 w-3 transform rounded-full bg-outline-variant shadow ring-0 transition duration-200 ease-in-out"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-lowest p-4 border border-teal-500/10">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="material-symbols-outlined text-primary text-sm">warning</span>
+                                    <span
+                                        class="text-[10px] font-headline font-black text-primary uppercase tracking-widest">SYSTEM_ALERT_PROTOCOL</span>
+                                </div>
+                                <p class="text-[10px] font-mono text-primary/60 uppercase leading-relaxed">
+                                    Emergency lockdown will revoke all active tokens. Use only in event of data breach
+                                    or infrastructure failure.
+                                </p>
+                                <button
+                                    class="w-full mt-4 bg-error-container text-white py-2 font-headline text-[10px] font-black uppercase tracking-widest hover:brightness-125 transition-all">
+                                    INITIATE_LOCKDOWN
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Bottom Navigation for Mobile -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-slate-950 border-t border-teal-500/20 z-50 flex items-center justify-around">
+        <button class="flex flex-col items-center gap-1 text-teal-400">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-[8px] font-headline font-bold">DASH</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-teal-900/40">
+            <span class="material-symbols-outlined">group</span>
+            <span class="text-[8px] font-headline font-bold">RECRUITS</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-teal-900/40">
+            <span class="material-symbols-outlined">hub</span>
+            <span class="text-[8px] font-headline font-bold">NODES</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-teal-900/40">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[8px] font-headline font-bold">LOGS</span>
+        </button>
+    </nav>
+</body>
+
+</html>

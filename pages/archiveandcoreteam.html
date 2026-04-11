@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FINOVA 2.0 | ABOUT_CORE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#490006",
+                        "surface": "#080c22",
+                        "surface-dim": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-tint": "#61f4d8",
+                        "tertiary-container": "#cad6ff",
+                        "on-tertiary": "#475275",
+                        "error-dim": "#d7383b",
+                        "on-primary-container": "#00332b",
+                        "on-surface-variant": "#a6a9c6",
+                        "secondary-fixed": "#45fec9",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "secondary-container": "#006c52",
+                        "primary": "#61f4d8",
+                        "surface-bright": "#242a4c",
+                        "on-secondary-fixed": "#004937",
+                        "background": "#080c22",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "secondary-dim": "#2cefbc",
+                        "error": "#ff716c",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-low": "#0d112a",
+                        "on-primary": "#00594c",
+                        "on-background": "#e2e4ff",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-container-highest": "#1e2343",
+                        "on-secondary": "#005d47",
+                        "on-primary-fixed": "#00443a",
+                        "surface-container": "#131832",
+                        "inverse-primary": "#006c5c",
+                        "error-container": "#9f0519",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "primary-dim": "#4fe5ca",
+                        "primary-container": "#08c1a6",
+                        "on-surface": "#e2e4ff",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#45fec9",
+                        "on-primary-fixed-variant": "#006455",
+                        "surface-container-high": "#181d3b",
+                        "tertiary-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary": "#dee4ff",
+                        "surface-variant": "#1e2343",
+                        "primary-fixed": "#61f4d8",
+                        "on-secondary-fixed-variant": "#006850",
+                        "outline": "#70748f",
+                        "tertiary-fixed": "#cad6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .holographic-shimmer {
+            background: linear-gradient(135deg, rgba(97, 244, 216, 0) 0%, rgba(97, 244, 216, 0.1) 45%, rgba(97, 244, 216, 0.3) 50%, rgba(97, 244, 216, 0.1) 55%, rgba(97, 244, 216, 0) 100%);
+            background-size: 250% 250%;
+        }
+
+        .terminal-glow {
+            text-shadow: 0 0 8px rgba(97, 244, 216, 0.6);
+        }
+
+        .kinetic-border {
+            box-shadow: inset 0 0 1px 1px rgba(97, 244, 216, 0.2);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080c22;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #61f4d8;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-surface overflow-x-hidden">
+    <div class="crt-overlay"></div>
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)]">
+        <nav class="flex justify-between items-center w-full px-12 py-4">
+            <div
+                class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+                FINOVA 2.0
+            </div>
+            <div class="hidden md:flex gap-10 items-center">
+                <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                    href="#">COMMAND</a>
+                <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                    href="#">VAULT</a>
+                <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                    href="#">TACTICAL</a>
+                <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                    href="#">TERMINAL</a>
+                <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-[#61f4d8] border-b-2 border-[#61f4d8] pb-1"
+                    href="#">LOGS</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button
+                    class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold bg-[#61f4d8]/10 text-[#61f4d8] px-6 py-2 border border-[#61f4d8]/30 hover:bg-[#61f4d8]/20 hover:shadow-[0_0_15px_rgba(97,244,216,0.3)] cursor-none active:scale-95 transition-all duration-150">
+                    INITIALIZE
+                </button>
+            </div>
+        </nav>
+    </header>
+    <!-- SideNavBar (Mobile/Expanded Hybrid) -->
+    <aside
+        class="fixed left-0 h-screen w-20 hover:w-64 transition-all duration-500 rounded-none border-r border-[#61f4d8]/10 bg-[#080c22]/90 backdrop-blur-md z-40 hidden lg:flex flex-col h-full py-8 group">
+        <div class="flex flex-col items-center group-hover:items-start group-hover:px-6 gap-12 mt-16">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">sensors</span>
+                </div>
+                <span
+                    class="font-mono text-xs uppercase tracking-tighter text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">SYSTEM_STATUS</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">bar_chart</span>
+                </div>
+                <span
+                    class="font-mono text-xs uppercase tracking-tighter text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">MARKET_DEPTH</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+                </div>
+                <span
+                    class="font-mono text-xs uppercase tracking-tighter text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">WALLET_SYNC</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">radar</span>
+                </div>
+                <span
+                    class="font-mono text-xs uppercase tracking-tighter text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">SIGNAL_FEED</span>
+            </div>
+        </div>
+        <div class="mt-auto group-hover:px-6 flex flex-col items-center group-hover:items-start gap-4">
+            <div
+                class="w-10 h-10 bg-primary rounded-none flex items-center justify-center overflow-hidden border border-primary/50">
+                <img class="w-full h-full object-cover"
+                    data-alt="Cyberpunk character portrait with neon highlights and futuristic tactical visor"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzA9AsRtOYxDmJ5LA3S0PWMjPLiEcrfG9dd6E89AIJPWXhetMOklhaKBKsSNIGVq8DJnpCOTzuCaD3dYn_845Pc9zgpq0sI5QSMkEOp39AmzGGRCKnQ3QPbt-7jKnF5_jDTfsoHlVWyBtIs6u8k67T8qNlAM5DI0RiQ3iWG_Dlc0r3M12MqlBUZr-e_n4vYHHV8KYBBFfh0DAkvulA4ypIGJdTvd1FLrF8a4OPXh6AF0PNIeBMnr2J1ec0kPO47H-AgsPZ0nxnqQw4" />
+            </div>
+            <div class="hidden group-hover:block">
+                <p class="font-mono text-xs text-[#45fec9] font-bold">OPERATOR_01</p>
+                <p class="font-mono text-[10px] text-slate-500">SECTOR_7G</p>
+            </div>
+        </div>
+    </aside>
+    <main class="pt-32 pb-20 px-6 md:px-24 lg:pl-32">
+        <!-- Hero Section: The Club Story -->
+        <section class="max-w-7xl mx-auto mb-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+            <div class="lg:col-span-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="h-[1px] w-12 bg-primary"></div>
+                    <span class="font-mono text-xs tracking-[0.3em] text-primary">GENESIS_RECORDS_LOG_001</span>
+                </div>
+                <h1 class="font-headline text-6xl md:text-8xl font-bold leading-none tracking-tighter mb-8">
+                    WE ARE THE <span class="text-primary italic">ANOMALY</span>.
+                </h1>
+                <p class="text-on-surface-variant text-xl md:text-2xl leading-relaxed max-w-3xl">
+                    Born in the latency gaps of high-frequency trading, Finova 2.0 isn't just a platform. It's a revolt
+                    against the static structures of legacy finance. We built a system that breathes data, moves with
+                    the speed of light, and empowers the individual to override the neural pathways of traditional
+                    banking.
+                </p>
+            </div>
+            <div class="lg:col-span-4 flex flex-col items-start lg:items-end">
+                <div class="text-right font-mono text-xs text-slate-500 mb-2">COORD: 40.7128° N, 74.0060° W</div>
+                <div class="w-full h-64 bg-surface-container-highest kinetic-border relative overflow-hidden group">
+                    <img class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110"
+                        data-alt="Abstract structural architecture with sharp geometric shadows and harsh high-contrast lighting in a futuristic void"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRiJn1oeb96_L2qQULUGAN9GheJyLkMI_uwECW5apUYwL3EGDJHw3172UygpgSEnZryHCDcS75dZbwJc6jcnZNhyr4g4jSXvB5dMBH4gDM79s90kx4Cyrh-8WIG3-YvSU_by-zoLWSgo9NqAe0Pmfaiv0RvQrJvo4EkxDDP5ORW1DfVIQODtOEVTlzCunXvxsHQBireWuK8X9Cc6I7TampmbymwPXYzjUNzi3ntK-jF1DtEDvhETiObeQp8tKDlcLrWKMOusCiE-kG" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+                    <div class="absolute bottom-4 left-4 font-mono text-xs text-primary">[VIEW_ARCHIVE]</div>
+                </div>
+            </div>
+        </section>
+        <!-- Mission Statement: Terminal Block -->
+        <section class="max-w-7xl mx-auto mb-32">
+            <div class="bg-surface-container-lowest kinetic-border p-8 md:p-12 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 opacity-10 pointer-events-none">
+                    <svg class="fill-primary" viewbox="0 0 100 100">
+                        <path d="M0 0 L100 0 L100 100 Z"></path>
+                    </svg>
+                </div>
+                <div class="flex gap-2 mb-8">
+                    <div class="w-3 h-3 bg-red-500/50"></div>
+                    <div class="w-3 h-3 bg-yellow-500/50"></div>
+                    <div class="w-3 h-3 bg-green-500/50"></div>
+                    <div class="ml-4 font-mono text-[10px] text-slate-500">MISSION_MANIFESTO.sh</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h2
+                            class="font-headline text-3xl font-bold text-primary terminal-glow mb-6 uppercase tracking-tight">
+                            SYSTEM_OBJECTIVES</h2>
+                        <div class="space-y-6 font-mono text-sm leading-relaxed text-slate-300">
+                            <p class="flex gap-4"><span class="text-primary">&gt;</span> ELIMINATE ALL TRANSACTIONAL
+                                FRICTION ACROSS DISTRIBUTED LEDGERS.</p>
+                            <p class="flex gap-4"><span class="text-primary">&gt;</span> DEPLOY HIGH-FIDELITY ANALYTICS
+                                FOR REAL-TIME ALPHA GENERATION.</p>
+                            <p class="flex gap-4"><span class="text-primary">&gt;</span> ENSURE TOTAL ANONYMITY THROUGH
+                                ENCRYPTED NEURAL ARCHITECTURES.</p>
+                        </div>
+                    </div>
+                    <div class="relative h-full flex flex-col justify-center border-l border-primary/20 pl-12">
+                        <p
+                            class="font-headline text-4xl md:text-5xl font-black text-white/10 leading-none absolute -left-4 top-1/2 -translate-y-1/2 select-none">
+                            OVERRIDE</p>
+                        <p class="font-headline text-xl italic text-on-surface leading-snug">
+                            "The architecture of tomorrow is being written in the code of today. We don't predict the
+                            market; we design the protocols that govern it."
+                        </p>
+                        <p class="mt-4 font-mono text-xs text-primary">— ARCHITECT_X</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Team Section: Holographic Cards -->
+        <section class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h2 class="font-headline text-4xl font-bold tracking-tighter uppercase">THE_OPERATORS</h2>
+                    <p class="font-mono text-xs text-slate-500 mt-2">ACTIVE_THREAT_DETECTION_TEAM</p>
+                </div>
+                <div class="hidden md:block h-[1px] flex-grow mx-12 bg-outline-variant/30"></div>
+                <div class="flex gap-4">
+                    <div
+                        class="w-10 h-10 border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/20 transition-all cursor-none">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </div>
+                    <div
+                        class="w-10 h-10 border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/20 transition-all cursor-none">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Member 1 -->
+                <div class="group relative bg-surface-container-high p-1 kinetic-border overflow-hidden">
+                    <div
+                        class="absolute inset-0 holographic-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    </div>
+                    <div class="relative bg-surface p-6 h-full flex flex-col">
+                        <div class="w-full aspect-square bg-slate-900 mb-6 overflow-hidden relative">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                data-alt="Portrait of a serious man in technical gear with glowing blue data reflections on his face"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTtgpy48bJMgZrZAk01OSCNhVv67z_QWLKaG8lHJ04DCSkZqCeUMl5i64n15EBTXxpZ1A7_dGxeuLahsu7rOGU_O4d05fxOJ0BGlCubM_zoII8quwD5718DVbvl5bWJvUTjG-75T8XU_so4fpKpgKtFWYZgK_o05RL0f7BuN0e0kzWc7xDc3WdDnTBxbLfQtsZCaSF5jevVK6_dPD6Kes8FF6FoNIdozcuZXfXFhN9osicGUHNYm96C7o-Y2nH2aAunp6TxmQLL9l8" />
+                            <div
+                                class="absolute top-2 right-2 px-2 py-1 bg-primary text-surface text-[10px] font-bold font-mono tracking-tighter">
+                                LVL_99</div>
+                        </div>
+                        <h3
+                            class="font-headline text-xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
+                            VINCENZO_VOID</h3>
+                        <p class="font-mono text-[10px] text-slate-500 mb-4 uppercase tracking-widest">
+                            LEAD_PROTOCOL_ARCHITECT</p>
+                        <div class="mt-auto flex justify-between items-center pt-4 border-t border-primary/10">
+                            <span
+                                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary">terminal</span>
+                            <span
+                                class="font-mono text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">ACCESS_RECORDS</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Member 2 -->
+                <div class="group relative bg-surface-container-high p-1 kinetic-border overflow-hidden">
+                    <div
+                        class="absolute inset-0 holographic-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    </div>
+                    <div class="relative bg-surface p-6 h-full flex flex-col">
+                        <div class="w-full aspect-square bg-slate-900 mb-6 overflow-hidden relative">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                data-alt="Powerful tech executive woman in sleek minimalist futuristic office with glass displays reflecting green terminal code"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHG0eEcrRcbYVNRGSm8AVNu4bxBCuER3TTC2861bwk6LHBL9UBPb3kcTS5HuzjIev9RaD81xYm7v1iCA6-vLz_fEOvrLC1E6TcKy3ni-Nu1fr0kHBk0LMYQLo_FiTx_UztlYpDILf_6sJ9fB7oNYQTTCG89fheNf2cMtb5_D0lquh415glz7hf1eC8kIwTWw7k1ytqAaq-EhN5feygywzUURd1qmC_VhUcoaT89FW-ojWnH2qytBFeXwabW8pQmXcIOH0rJkQDsd1Z" />
+                            <div
+                                class="absolute top-2 right-2 px-2 py-1 bg-secondary text-surface text-[10px] font-bold font-mono tracking-tighter">
+                                ELITE</div>
+                        </div>
+                        <h3
+                            class="font-headline text-xl font-bold text-white mb-1 group-hover:text-secondary transition-colors">
+                            KARA_SIGNAL</h3>
+                        <p class="font-mono text-[10px] text-slate-500 mb-4 uppercase tracking-widest">
+                            QUANT_STRATEGY_DEPT</p>
+                        <div class="mt-auto flex justify-between items-center pt-4 border-t border-primary/10">
+                            <span
+                                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-secondary">radar</span>
+                            <span
+                                class="font-mono text-[10px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">ACCESS_RECORDS</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Member 3 -->
+                <div class="group relative bg-surface-container-high p-1 kinetic-border overflow-hidden">
+                    <div
+                        class="absolute inset-0 holographic-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    </div>
+                    <div class="relative bg-surface p-6 h-full flex flex-col">
+                        <div class="w-full aspect-square bg-slate-900 mb-6 overflow-hidden relative">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                data-alt="Close up of a man with technical glasses looking at holographic data projections in a dark room"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvD4SmyRMESmXiAJmGxpCq39zO4JEBR4Ie6iuepyZSxfMjJVXQXQQEoBEC-JdPh-ltR-RkkXfc0gvDvhJFYgZR2765wE6_MZA5uVp8ja--2Jp677lCFUi8dyvUN9lHA5BbVbFeP6iYSnZ5_Xl5wC8WTgmqBmEdZvNxKWn1BREebt1_B7uasZwYCYqzPp7tqFwZJajDPsylCY5O52EAD3h8KSaYahdinrFq4uzBomtxb7wcwUrYXR_M5JvXsEI-B0T6zajrF4qfjSow" />
+                            <div
+                                class="absolute top-2 right-2 px-2 py-1 bg-primary text-surface text-[10px] font-bold font-mono tracking-tighter">
+                                ROOT</div>
+                        </div>
+                        <h3
+                            class="font-headline text-xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
+                            DRAKE_VAULT</h3>
+                        <p class="font-mono text-[10px] text-slate-500 mb-4 uppercase tracking-widest">
+                            CYBER_SECURITY_CORE</p>
+                        <div class="mt-auto flex justify-between items-center pt-4 border-t border-primary/10">
+                            <span
+                                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary">security</span>
+                            <span
+                                class="font-mono text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">ACCESS_RECORDS</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Member 4 -->
+                <div class="group relative bg-surface-container-high p-1 kinetic-border overflow-hidden">
+                    <div
+                        class="absolute inset-0 holographic-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    </div>
+                    <div class="relative bg-surface p-6 h-full flex flex-col">
+                        <div class="w-full aspect-square bg-slate-900 mb-6 overflow-hidden relative">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                data-alt="Woman with futuristic neural implants and glowing circuit patterns on her neck, moody cyan lighting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYS3MZox2ocw7IQ4kQ5NCdCWMZreZPRc-IMlu36IAkSmP3XR6HFLbX2ieut09TUueqV3zEFSNCl89qZjPo8xfZCxgmJYPe4h-zEhd-2JCsB60h19Y3T6Ng9pcY_MbWG8MlL6fwxuYOUCTWlSjQY0fPKdsoSiWe7W4BV6qaEI3orn35Pnm-Q6PTcUsUuGXdk5xiuJIbXsTMqKq7licrVHdT1FDLOKXl298GwmVqtz8s08k-zDy4s7RP1aAZY9USB0mYBfuZB_AhlxEe" />
+                            <div
+                                class="absolute top-2 right-2 px-2 py-1 bg-secondary text-surface text-[10px] font-bold font-mono tracking-tighter">
+                                CORE</div>
+                        </div>
+                        <h3
+                            class="font-headline text-xl font-bold text-white mb-1 group-hover:text-secondary transition-colors">
+                            MAYA_SYNAPSE</h3>
+                        <p class="font-mono text-[10px] text-slate-500 mb-4 uppercase tracking-widest">
+                            NEURAL_INTERFACE_UX</p>
+                        <div class="mt-auto flex justify-between items-center pt-4 border-t border-primary/10">
+                            <span
+                                class="material-symbols-outlined text-sm text-slate-500 group-hover:text-secondary">psychology</span>
+                            <span
+                                class="font-mono text-[10px] text-secondary opacity-0 group-hover:opacity-100 transition-opacity">ACCESS_RECORDS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-black bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px]">
+        <div class="flex flex-col items-center gap-6 w-full overflow-hidden">
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+                <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                    href="#">PROTOCOL</a>
+                <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                    href="#">RECORDS</a>
+                <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                    href="#">SECURITY_CORE</a>
+                <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] hover:tracking-[0.3em] transition-all duration-500"
+                    href="#">UPTIME</a>
+            </div>
+            <p class="font-mono text-[10px] tracking-[0.2em] text-[#61f4d8] opacity-50">
+                © 2124 FINOVA_SYSTEMS_GLOBAL // ENCRYPTED_CONNECTION
+            </p>
+            <div class="flex items-center gap-4 mt-4">
+                <div class="w-2 h-2 bg-primary animate-pulse"></div>
+                <span class="font-mono text-[8px] text-slate-500 uppercase tracking-widest">NETWORK_STATUS:
+                    OPTIMAL</span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

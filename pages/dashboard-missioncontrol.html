@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FINOVA 2.0 // MISSION_CONTROL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600&amp;family=Roboto+Mono&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#490006",
+                        "surface": "#080c22",
+                        "surface-dim": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-tint": "#61f4d8",
+                        "tertiary-container": "#cad6ff",
+                        "on-tertiary": "#475275",
+                        "error-dim": "#d7383b",
+                        "on-primary-container": "#00332b",
+                        "on-surface-variant": "#a6a9c6",
+                        "secondary-fixed": "#45fec9",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "secondary-container": "#006c52",
+                        "primary": "#61f4d8",
+                        "surface-bright": "#242a4c",
+                        "on-secondary-fixed": "#004937",
+                        "background": "#080c22",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "secondary-dim": "#2cefbc",
+                        "error": "#ff716c",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-low": "#0d112a",
+                        "on-primary": "#00594c",
+                        "on-background": "#e2e4ff",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-container-highest": "#1e2343",
+                        "on-secondary": "#005d47",
+                        "on-primary-fixed": "#00443a",
+                        "surface-container": "#131832",
+                        "inverse-primary": "#006c5c",
+                        "error-container": "#9f0519",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "primary-dim": "#4fe5ca",
+                        "primary-container": "#08c1a6",
+                        "on-surface": "#e2e4ff",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#45fec9",
+                        "on-primary-fixed-variant": "#006455",
+                        "surface-container-high": "#181d3b",
+                        "tertiary-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary": "#dee4ff",
+                        "surface-variant": "#1e2343",
+                        "primary-fixed": "#61f4d8",
+                        "on-secondary-fixed-variant": "#006850",
+                        "outline": "#70748f",
+                        "tertiary-fixed": "#cad6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["Roboto Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 100;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(97, 244, 216, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+        }
+
+        .liquid-chrome {
+            background: linear-gradient(to bottom, #ffffff 30%, #61f4d8 50%, #45fec9 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface font-body text-on-surface selection:bg-primary selection:text-on-primary-container overflow-x-hidden">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)] flex justify-between items-center px-12 py-4">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+            FINOVA 2.0</div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-[#61f4d8] border-b-2 border-[#61f4d8] pb-1"
+                href="#">COMMAND</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">VAULT</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TACTICAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">TERMINAL</a>
+            <a class="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-slate-400 hover:text-[#61f4d8] transition-colors duration-300"
+                href="#">LOGS</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="text-[#61f4d8] font-mono text-xs hidden lg:block">SYS_TIME: 14:22:01 UTC</div>
+            <button
+                class="bg-[#61f4d8] text-on-primary-container font-headline font-bold px-6 py-2 text-sm tracking-widest hover:bg-[#61f4d8]/90 transition-all active:scale-95 cursor-none">INITIALIZE</button>
+        </div>
+    </nav>
+    <!-- SideNavBar (Mobile Bottom / Desktop Side) -->
+    <aside
+        class="fixed left-0 h-screen w-20 hover:w-64 transition-all duration-500 rounded-none border-r border-[#61f4d8]/10 bg-[#080c22]/90 backdrop-blur-md z-40 hidden md:flex flex-col py-8 pt-24 overflow-hidden group">
+        <div class="flex flex-col h-full justify-between">
+            <div class="space-y-4">
+                <div
+                    class="flex items-center px-6 gap-4 py-3 bg-[#61f4d8]/20 text-[#61f4d8] border-l-4 border-[#61f4d8] transition-all">
+                    <span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+                    <span
+                        class="font-mono text-xs uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">SYSTEM_STATUS</span>
+                </div>
+                <div
+                    class="flex items-center px-6 gap-4 py-3 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+                    <span
+                        class="font-mono text-xs uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">MARKET_DEPTH</span>
+                </div>
+                <div
+                    class="flex items-center px-6 gap-4 py-3 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined"
+                        data-icon="account_balance_wallet">account_balance_wallet</span>
+                    <span
+                        class="font-mono text-xs uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">WALLET_SYNC</span>
+                </div>
+                <div
+                    class="flex items-center px-6 gap-4 py-3 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined" data-icon="radar">radar</span>
+                    <span
+                        class="font-mono text-xs uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">SIGNAL_FEED</span>
+                </div>
+            </div>
+            <div class="px-4 py-6 border-t border-[#61f4d8]/10">
+                <div class="flex items-center gap-3 mb-6">
+                    <img alt="Pilot Identifier" class="w-10 h-10 border border-primary/40 grayscale"
+                        data-alt="close-up portrait of a tech professional in low key lighting with cyan highlight reflecting on skin"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuwmzc2T8Q-y5TuNiKHuARgZpSCtmNIoqDFtPJnc5vzuH2Wh56cy3jIH4WH9hGWDF1fS6aPtYIZsMIfuGyVEUNTGQTUobXZxP-N1ekL6v7TsVdcNH0v0i9HGkjfzO-Swxf2c916kobK7IlO-XcP-ZTLmetgc_JAGtelmm7D_wuSEURtk0dN6Qv7Xo4fH0sxdy8D52TOsgW5o8TrJB3i8p4zlMa1aA46U2-BXOTgyH3-ZPfBSvNMrcQAiOstmXwFra06i0I6YDVXxlE" />
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div class="text-xs font-mono text-[#45fec9] font-bold">OPERATOR_01</div>
+                        <div class="text-[10px] font-mono text-slate-500">SECTOR_7G</div>
+                    </div>
+                </div>
+                <button
+                    class="w-full py-2 bg-transparent border border-[#45fec9] text-[#45fec9] font-mono text-[10px] tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#45fec9]/10">DEPLOY_LIQUIDITY</button>
+            </div>
+        </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="md:ml-20 pt-24 pb-12 px-6 lg:px-12 min-h-screen relative">
+        <div class="crt-overlay fixed inset-0 z-10 opacity-30 pointer-events-none"></div>
+        <!-- Hero Display -->
+        <header class="mb-12 relative">
+            <div class="flex flex-col lg:flex-row justify-between items-end gap-6">
+                <div>
+                    <div class="text-primary font-mono text-sm tracking-[0.3em] mb-2 uppercase">Core Protocol Dashboard
+                    </div>
+                    <h1
+                        class="text-6xl md:text-8xl font-black font-headline uppercase leading-[0.8] tracking-tighter liquid-chrome">
+                        MISSION_CONTROL</h1>
+                </div>
+                <div class="bg-surface-container-high p-4 border-l-4 border-secondary flex flex-col items-end">
+                    <div class="text-[10px] font-mono text-slate-400 uppercase tracking-widest">Network_Hashrate</div>
+                    <div class="text-3xl font-mono text-secondary font-bold">144.22 TH/s</div>
+                    <div class="w-full bg-slate-900 h-1 mt-2 overflow-hidden">
+                        <div class="bg-primary h-full w-[72%] shadow-[0_0_10px_#61f4d8]"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 relative z-20">
+            <!-- SUBMISSION COUNTDOWN - Recessed styling -->
+            <section
+                class="md:col-span-8 bg-surface-container-lowest border border-outline-variant/30 p-8 flex flex-col justify-between relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 font-mono text-[10px] text-primary/40">SYS_ID: 99x-A14</div>
+                <div>
+                    <div class="flex items-center gap-2 mb-8">
+                        <span class="material-symbols-outlined text-primary text-lg" data-icon="timer">timer</span>
+                        <h2 class="font-headline font-bold uppercase tracking-widest text-sm text-on-surface-variant">
+                            Submission Countdown</h2>
+                    </div>
+                    <div class="flex gap-4 md:gap-8 items-baseline">
+                        <div class="flex flex-col">
+                            <span class="text-6xl md:text-8xl font-black font-mono text-on-surface">02</span>
+                            <span
+                                class="text-[10px] font-mono text-primary uppercase text-center tracking-[0.5em]">Days</span>
+                        </div>
+                        <span class="text-6xl font-light text-primary/30">:</span>
+                        <div class="flex flex-col">
+                            <span class="text-6xl md:text-8xl font-black font-mono text-on-surface">14</span>
+                            <span
+                                class="text-[10px] font-mono text-primary uppercase text-center tracking-[0.5em]">Hrs</span>
+                        </div>
+                        <span class="text-6xl font-light text-primary/30">:</span>
+                        <div class="flex flex-col">
+                            <span class="text-6xl md:text-8xl font-black font-mono text-on-surface">55</span>
+                            <span
+                                class="text-[10px] font-mono text-primary uppercase text-center tracking-[0.5em]">Min</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 flex flex-col md:flex-row gap-6 items-center">
+                    <button
+                        class="w-full md:w-auto px-10 py-4 bg-primary text-on-primary-container font-headline font-black tracking-widest text-sm hover:shadow-[0_0_25px_rgba(97,244,216,0.4)] transition-all">UPLOAD_PAYLOAD</button>
+                    <div class="text-xs font-mono text-slate-500 italic flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]" data-icon="info">info</span>
+                        ENCRYPTED CHANNEL SECURED VIA AES-256
+                    </div>
+                </div>
+                <!-- Background decoration -->
+                <div
+                    class="absolute bottom-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2">
+                </div>
+            </section>
+            <!-- LIVE ANNOUNCEMENTS - Glassmorphism -->
+            <section
+                class="md:col-span-4 bg-surface-bright/40 backdrop-blur-xl border border-[#61f4d8]/10 p-6 flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="font-headline font-bold uppercase tracking-widest text-sm text-secondary">Live
+                        Announcements</h2>
+                    <span class="flex h-2 w-2 rounded-full bg-secondary animate-pulse"></span>
+                </div>
+                <div class="space-y-4 flex-grow overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+                    <div
+                        class="border-l-2 border-primary/30 pl-4 py-2 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="text-[10px] font-mono text-primary mb-1">T-MINUS 48:00:00</div>
+                        <div
+                            class="text-sm font-bold uppercase tracking-tight text-on-surface group-hover:text-primary">
+                            Phase 2 Node Migration Success</div>
+                        <p class="text-[11px] text-slate-400 mt-1">All primary clusters have successfully transitioned
+                            to the new protocol standards...</p>
+                    </div>
+                    <div
+                        class="border-l-2 border-primary/30 pl-4 py-2 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="text-[10px] font-mono text-primary mb-1">T-MINUS 52:12:44</div>
+                        <div
+                            class="text-sm font-bold uppercase tracking-tight text-on-surface group-hover:text-primary">
+                            Security Audit Report Released</div>
+                        <p class="text-[11px] text-slate-400 mt-1">Tier-1 security partners have completed the deep-scan
+                            of the Finova treasury vault...</p>
+                    </div>
+                    <div
+                        class="border-l-2 border-primary/30 pl-4 py-2 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <div class="text-[10px] font-mono text-primary mb-1">T-MINUS 55:30:11</div>
+                        <div
+                            class="text-sm font-bold uppercase tracking-tight text-on-surface group-hover:text-primary">
+                            New Market Pairs Integrated</div>
+                        <p class="text-[11px] text-slate-400 mt-1">FINO/USDC and FINO/ETH pairs are now live for
+                            tactical execution...</p>
+                    </div>
+                </div>
+                <button
+                    class="mt-6 w-full py-2 font-mono text-[10px] tracking-[0.3em] text-slate-400 hover:text-primary transition-all uppercase">[
+                    VIEW_ALL_RECORDS ]</button>
+            </section>
+            <!-- MY TEAM - Tactical Module -->
+            <section class="md:col-span-12 lg:col-span-6 bg-surface-container-high p-8 relative overflow-hidden">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <h2
+                            class="font-headline font-bold uppercase tracking-widest text-sm text-on-surface-variant mb-1">
+                            My Team</h2>
+                        <div class="text-xs font-mono text-primary">SQUAD_NAME: SPECTRE_UNIT_9</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[10px] font-mono text-slate-500 uppercase">Rank</div>
+                        <div class="text-2xl font-mono text-secondary font-bold">#04 / 128</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Team Member -->
+                    <div
+                        class="bg-surface-container p-4 border border-outline-variant/20 flex items-center gap-4 hover:border-primary/50 transition-all group">
+                        <div class="w-12 h-12 border border-primary/30 flex items-center justify-center p-1">
+                            <img alt="Team Lead" class="w-full h-full grayscale"
+                                data-alt="headshot of a man with serious expression in high contrast cinematic lighting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEcKWwyuv40UVxUYeTrniDm15pBOrjIQc1EQYZPaSwH5m0GgvQI_SchKQMY22C2Ke4hoAxiKgzM7uYoyo-XhCdEzChtzFN4OK0v5UO-jwpIdCFlc-XZrD2NqPxbPk7HnmCl1g3ID5nosNV1IQiP3L8YQsWH0PLE0zosjlVm0PVgkAasTQHNjcdvGfw1M0mp7D1CFZQJmJ2xrlGLY6ItHUxm9dO_GQKt2EA2zqzthoUjbAKS4e24qKB5TmpYlVvhAJJzpb2sIw-rVgS" />
+                        </div>
+                        <div>
+                            <div class="text-xs font-mono text-on-surface font-bold uppercase">Apex_Operator</div>
+                            <div class="text-[10px] font-mono text-secondary">READY // 100%</div>
+                        </div>
+                        <div class="ml-auto">
+                            <span class="material-symbols-outlined text-primary/40 text-sm" data-icon="star"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                    </div>
+                    <!-- Team Member -->
+                    <div
+                        class="bg-surface-container p-4 border border-outline-variant/20 flex items-center gap-4 hover:border-primary/50 transition-all group">
+                        <div class="w-12 h-12 border border-primary/30 flex items-center justify-center p-1">
+                            <img alt="Tactical Lead" class="w-full h-full grayscale"
+                                data-alt="portrait of a woman looking confidently into camera with soft teal neon backlight"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3cveRWbNCbupjYNXrAI278zgArIfGomy3nHgKtdTrXBpZUWxr26-drwSLVw4_LQ6BhFAyIB3EnwZtGIkC8o89KghqPPjCd_oqaC7YsApys-bFnutoGBua9kgaOMdLZVw2TqcZKYIJ-g2ioeN4jEBDozjysMbi0DP9I68Peb5SkZnaMYoL4XvMfWd74zBlGYQBAJkgIUSzXZOReriTYWZliC0NE3tczPRJ0AlNgXHD7WwcIZrzqz0xF1weoP7v1LzSmcG-CGp-yE9Z" />
+                        </div>
+                        <div>
+                            <div class="text-xs font-mono text-on-surface font-bold uppercase">Ghost_Protocol</div>
+                            <div class="text-[10px] font-mono text-secondary">READY // 100%</div>
+                        </div>
+                    </div>
+                    <!-- Team Member -->
+                    <div
+                        class="bg-surface-container p-4 border border-outline-variant/20 flex items-center gap-4 hover:border-primary/50 transition-all group">
+                        <div class="w-12 h-12 border border-primary/30 flex items-center justify-center p-1">
+                            <img alt="Data Specialist" class="w-full h-full grayscale"
+                                data-alt="close up of a man with technical glasses looking at a screen with data reflections on his face"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfThbLOjGiMpoP_fnDg3z99If26McXjPl5NqLQrhKO8N7J-UK0jEfqLlh2O_WVIytobprqIFnXWvX5PXAznVTVSZAyfA0TINHAIQJQdhrkKc4q8KUgoYtVaH7jBeezgagDhx0hrwSe743m3xp-n5S162TLTiTQsSK9KAlOCEAJ6hwEpiOxctTCpZe2iLYEC0B_szVwzloJCCju_edc3HozuoS5lOicvLz1pAoold4Adzt3YTe7F9yORxuUbDcWPW4UjId4Hy0Xj0uw" />
+                        </div>
+                        <div>
+                            <div class="text-xs font-mono text-on-surface font-bold uppercase">Viper_Core</div>
+                            <div class="text-[10px] font-mono text-secondary">READY // 100%</div>
+                        </div>
+                    </div>
+                    <!-- Empty Slot -->
+                    <div
+                        class="bg-surface-container-low border border-dashed border-outline-variant/40 p-4 flex items-center justify-center gap-4 cursor-pointer hover:bg-white/5 transition-all">
+                        <span class="material-symbols-outlined text-slate-500" data-icon="add">add</span>
+                        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Awaiting Pilot...
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- PERFORMANCE GRAPH - Data Readout -->
+            <section class="md:col-span-12 lg:col-span-6 bg-surface-container-high p-8 flex flex-col">
+                <div class="flex justify-between items-center mb-10">
+                    <h2 class="font-headline font-bold uppercase tracking-widest text-sm text-on-surface-variant">
+                        Performance_Flux</h2>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-primary"></span>
+                            <span class="text-[10px] font-mono text-slate-500 uppercase">Yield</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-secondary"></span>
+                            <span class="text-[10px] font-mono text-slate-500 uppercase">Volatility</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow flex items-end gap-1 min-h-[160px]">
+                    <!-- Bar Chart Sim -->
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[40%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[55%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[45%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[70%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[65%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[85%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[75%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[95%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                    <div class="bg-primary/20 hover:bg-primary/40 transition-all w-full h-[80%] relative group">
+                        <div class="absolute bottom-full left-0 w-full bg-primary h-[2px]"></div>
+                    </div>
+                </div>
+                <div class="mt-6 pt-6 border-t border-outline-variant/30 grid grid-cols-3 gap-4">
+                    <div>
+                        <div class="text-[10px] font-mono text-slate-500 uppercase">Total_Volume</div>
+                        <div class="text-xl font-mono font-bold text-on-surface">$2.4M</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-mono text-slate-500 uppercase">APY_Projection</div>
+                        <div class="text-xl font-mono font-bold text-secondary">24.5%</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-mono text-slate-500 uppercase">Risk_Level</div>
+                        <div class="text-xl font-mono font-bold text-primary">LOW</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- System Logs / Terminal Feed -->
+        <section
+            class="mt-12 bg-black border-t-2 border-primary/20 p-6 font-mono text-[11px] text-primary/80 leading-relaxed max-h-48 overflow-y-auto">
+            <div class="flex gap-4">
+                <span class="text-slate-500">[14:21:05]</span>
+                <span>INITIALIZING FINOVA CORE KERNEL 2.0.4...</span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-slate-500">[14:21:08]</span>
+                <span>HANDSHAKE SUCCESS WITH CLUSTER_ALPHA-01</span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-slate-500">[14:21:12]</span>
+                <span class="text-secondary">WARNING: INCOMING LIQUIDITY SIGNAL DETECTED FROM
+                    WHALE_WALLET_0x44...</span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-slate-500">[14:21:45]</span>
+                <span>SUBSYSTEM_TEAM_STATS_SYNCED... OK</span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-slate-500">[14:22:01]</span>
+                <span class="animate-pulse">AWAITING_USER_COMMAND_</span>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px] flex flex-col items-center gap-6 overflow-hidden">
+        <div class="flex flex-wrap justify-center gap-12 mb-4">
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">PROTOCOL</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase underline decoration-[#61f4d8]"
+                href="#">RECORDS</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">SECURITY_CORE</a>
+            <a class="font-mono text-[10px] tracking-[0.2em] text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">UPTIME</a>
+        </div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-[#61f4d8]">© 2124 FINOVA_SYSTEMS_GLOBAL //
+            ENCRYPTED_CONNECTION</div>
+        <!-- Decorative Grid Light Leaks -->
+        <div class="absolute top-0 left-1/4 w-[1px] h-full bg-gradient-to-b from-primary/40 to-transparent"></div>
+        <div class="absolute top-0 right-1/4 w-[1px] h-full bg-gradient-to-b from-primary/40 to-transparent"></div>
+    </footer>
+</body>
+
+</html>

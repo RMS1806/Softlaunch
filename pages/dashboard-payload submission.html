@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#490006",
+                        "surface": "#080c22",
+                        "surface-dim": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-tint": "#61f4d8",
+                        "tertiary-container": "#cad6ff",
+                        "on-tertiary": "#475275",
+                        "error-dim": "#d7383b",
+                        "on-primary-container": "#00332b",
+                        "on-surface-variant": "#a6a9c6",
+                        "secondary-fixed": "#45fec9",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "secondary-container": "#006c52",
+                        "primary": "#61f4d8",
+                        "surface-bright": "#242a4c",
+                        "on-secondary-fixed": "#004937",
+                        "background": "#080c22",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "secondary-dim": "#2cefbc",
+                        "error": "#ff716c",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-low": "#0d112a",
+                        "on-primary": "#00594c",
+                        "on-background": "#e2e4ff",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-container-highest": "#1e2343",
+                        "on-secondary": "#005d47",
+                        "on-primary-fixed": "#00443a",
+                        "surface-container": "#131832",
+                        "inverse-primary": "#006c5c",
+                        "error-container": "#9f0519",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "primary-dim": "#4fe5ca",
+                        "primary-container": "#08c1a6",
+                        "on-surface": "#e2e4ff",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#45fec9",
+                        "on-primary-fixed-variant": "#006455",
+                        "surface-container-high": "#181d3b",
+                        "tertiary-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary": "#dee4ff",
+                        "surface-variant": "#1e2343",
+                        "primary-fixed": "#61f4d8",
+                        "on-secondary-fixed-variant": "#006850",
+                        "outline": "#70748f",
+                        "tertiary-fixed": "#cad6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .crt-scanline {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(8, 12, 34, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .liquid-glow {
+            box-shadow: 0 0 20px rgba(97, 244, 216, 0.15);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #61f4d8;
+            box-shadow: 0 0 10px rgba(97, 244, 216, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body overflow-x-hidden selection:bg-primary selection:text-on-primary">
+    <div class="fixed inset-0 crt-scanline z-[100] opacity-30"></div>
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)] flex justify-between items-center w-full px-12 py-4">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+            FINOVA 2.0</div>
+        <div class="hidden md:flex gap-10 font-headline uppercase tracking-widest text-sm font-bold">
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300 cursor-none active:scale-95"
+                href="#">COMMAND</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300 cursor-none active:scale-95"
+                href="#">VAULT</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300 cursor-none active:scale-95"
+                href="#">TACTICAL</a>
+            <a class="text-[#61f4d8] border-b-2 border-[#61f4d8] pb-1 cursor-none active:scale-95" href="#">TERMINAL</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300 cursor-none active:scale-95"
+                href="#">LOGS</a>
+        </div>
+        <button
+            class="bg-[#61f4d8] text-[#00332b] px-6 py-2 font-headline font-bold text-xs tracking-tighter hover:bg-[#45fec9] transition-all duration-150 active:scale-95">INITIALIZE</button>
+    </nav>
+    <aside
+        class="fixed left-0 h-screen w-20 hover:w-64 transition-all duration-500 rounded-none border-r border-[#61f4d8]/10 bg-[#080c22]/90 backdrop-blur-md shadow-[10px_0_30px_rgba(0,0,0,0.5)] z-40 hidden lg:flex flex-col h-full py-8 overflow-hidden group">
+        <div class="flex flex-col gap-8 items-center group-hover:items-start group-hover:px-6">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-primary/20 border border-primary/40 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-xl">account_circle</span>
+                </div>
+                <div class="hidden group-hover:block transition-all">
+                    <div class="font-headline font-bold text-sm text-primary tracking-tighter">OPERATOR_01</div>
+                    <div class="font-mono text-[10px] text-outline">SECTOR_7G</div>
+                </div>
+            </div>
+            <div class="w-full flex flex-col gap-2 mt-12">
+                <div
+                    class="flex items-center gap-4 py-3 px-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+                    <span
+                        class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">SYSTEM_STATUS</span>
+                </div>
+                <div
+                    class="flex items-center gap-4 py-3 px-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+                    <span
+                        class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">MARKET_DEPTH</span>
+                </div>
+                <div
+                    class="flex items-center gap-4 py-3 px-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined"
+                        data-icon="account_balance_wallet">account_balance_wallet</span>
+                    <span
+                        class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">WALLET_SYNC</span>
+                </div>
+                <div
+                    class="flex items-center gap-4 py-3 px-4 bg-[#61f4d8]/20 text-[#61f4d8] border-l-4 border-[#61f4d8] transition-all cursor-pointer">
+                    <span class="material-symbols-outlined" data-icon="radar">radar</span>
+                    <span
+                        class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">SIGNAL_FEED</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-auto px-4 hidden group-hover:block">
+            <button
+                class="w-full bg-secondary-container py-3 font-headline font-bold text-[10px] tracking-widest text-secondary hover:bg-primary transition-all">DEPLOY_LIQUIDITY</button>
+        </div>
+    </aside>
+    <main class="pt-24 lg:pl-32 pr-8 pb-32 min-h-screen">
+        <div class="max-w-6xl mx-auto grid grid-cols-12 gap-8">
+            <section class="col-span-12 lg:col-span-8 space-y-8">
+                <div class="relative overflow-hidden border border-primary/20 bg-surface-container-low p-8 liquid-glow">
+                    <div class="absolute top-0 right-0 p-4 font-mono text-[10px] text-primary/40">
+                        FRM_SUBMISSION_PROTO_V2.0</div>
+                    <h1 class="text-6xl font-black font-headline text-on-surface tracking-tighter leading-none mb-4">
+                        PROJECT <span class="text-primary italic">DEPLOYMENT</span>
+                    </h1>
+                    <p class="text-on-surface-variant max-w-xl font-body leading-relaxed mb-8">
+                        Upload your core protocol artifacts. High-stakes validation is active. Ensure all neural links
+                        are secure before final transmission.
+                    </p>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label
+                                    class="font-headline text-[10px] tracking-widest text-primary uppercase font-bold">Project
+                                    Name</label>
+                                <input
+                                    class="w-full bg-surface-container-highest border-0 border-b-2 border-outline-variant px-4 py-3 font-mono text-sm placeholder:opacity-30"
+                                    placeholder="ENTER_ID" type="text" />
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="font-headline text-[10px] tracking-widest text-primary uppercase font-bold">Repository
+                                    Link</label>
+                                <input
+                                    class="w-full bg-surface-container-highest border-0 border-b-2 border-outline-variant px-4 py-3 font-mono text-sm placeholder:opacity-30"
+                                    placeholder="HTTPS://GITHUB.COM/..." type="url" />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="font-headline text-[10px] tracking-widest text-primary uppercase font-bold">Tactical
+                                Pitch</label>
+                            <textarea
+                                class="w-full bg-surface-container-highest border-0 border-b-2 border-outline-variant px-4 py-3 font-mono text-sm placeholder:opacity-30 resize-none"
+                                placeholder="DESCRIBE_THE_MISSION_OBJECTIVES..." rows="4"></textarea>
+                        </div>
+                        <div class="relative group">
+                            <label
+                                class="font-headline text-[10px] tracking-widest text-primary uppercase font-bold mb-2 block">Protocol
+                                Documentation (PDF)</label>
+                            <div
+                                class="w-full h-48 border-2 border-dashed border-outline-variant flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-all cursor-pointer bg-surface-container-lowest liquid-glow group-hover:bg-primary/5">
+                                <span
+                                    class="material-symbols-outlined text-4xl text-primary/40 group-hover:text-primary"
+                                    data-icon="cloud_upload">cloud_upload</span>
+                                <div class="text-center">
+                                    <div class="font-headline text-xs font-bold tracking-widest text-on-surface">DRAG
+                                        &amp; DROP MODULE</div>
+                                    <div class="font-mono text-[10px] text-outline mt-1 uppercase">Max file size: 50MB
+                                        // Secure Layer Active</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-4">
+                            <button
+                                class="bg-primary hover:bg-secondary text-on-primary font-headline font-black py-4 px-12 tracking-widest text-lg liquid-glow transition-all active:scale-95 group"
+                                type="submit">
+                                <span class="flex items-center gap-2">
+                                    EXECUTE_UPLOAD
+                                    <span
+                                        class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform"
+                                        data-icon="send">send</span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div
+                    class="bg-surface-container-lowest border border-outline-variant p-6 font-mono text-xs text-primary/70 relative">
+                    <div class="flex items-center justify-between border-b border-outline-variant pb-3 mb-4">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-primary rounded-full"></span>
+                            TERMINAL_LOGS
+                        </span>
+                        <span class="text-outline uppercase text-[10px]">Uptime: 2124.04.17_10:00</span>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex gap-4"><span class="text-outline">[09:22:11]</span> <span>SYSTEM_READY:
+                                Awaiting project parameters...</span></div>
+                        <div class="flex gap-4"><span class="text-outline">[09:22:15]</span> <span>ENCRYPTION: AES-256
+                                protocols engaged.</span></div>
+                        <div class="flex gap-4"><span class="text-outline">[09:23:01]</span> <span
+                                class="text-secondary">UPLOADING: Handshake established with mainnet.</span></div>
+                        <div class="flex gap-4 animate-pulse"><span class="text-outline">[09:23:05]</span> <span
+                                class="text-primary italic">_listening_for_input...</span></div>
+                    </div>
+                </div>
+            </section>
+            <aside class="col-span-12 lg:col-span-4 space-y-8">
+                <div class="bg-primary/10 border border-primary/30 p-8 text-center relative">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                    <h3 class="font-headline font-black text-xs tracking-[0.3em] text-primary mb-6">T-MINUS DEADLINE
+                    </h3>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="bg-surface-container-highest p-3 border border-primary/20">
+                            <div class="text-2xl font-black font-headline text-on-surface">04</div>
+                            <div class="text-[8px] font-mono text-outline uppercase tracking-tighter">DAYS</div>
+                        </div>
+                        <div class="bg-surface-container-highest p-3 border border-primary/20">
+                            <div class="text-2xl font-black font-headline text-on-surface">12</div>
+                            <div class="text-[8px] font-mono text-outline uppercase tracking-tighter">HRS</div>
+                        </div>
+                        <div class="bg-surface-container-highest p-3 border border-primary/20">
+                            <div class="text-2xl font-black font-headline text-on-surface">45</div>
+                            <div class="text-[8px] font-mono text-outline uppercase tracking-tighter">MIN</div>
+                        </div>
+                        <div class="bg-surface-container-highest p-3 border border-primary/20">
+                            <div class="text-2xl font-black font-headline text-on-surface">09</div>
+                            <div class="text-[8px] font-mono text-outline uppercase tracking-tighter">SEC</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 font-mono text-[10px] text-secondary tracking-widest">APRIL 17 // 10:00 AM UTC
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="font-headline font-bold text-[10px] tracking-widest text-primary uppercase">Mission
+                        Status</div>
+                    <div class="bg-surface-container p-6 border border-outline-variant space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-mono uppercase text-outline">Submission Cap</span>
+                            <span class="text-[10px] font-mono text-on-surface">84/128</span>
+                        </div>
+                        <div
+                            class="h-2 bg-surface-container-highest w-full border border-outline-variant overflow-hidden">
+                            <div class="h-full bg-primary w-[65%]" style="box-shadow: 0 0 10px #61f4d8;"></div>
+                        </div>
+                        <div class="pt-4 border-t border-outline-variant/30 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-secondary/10 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-secondary text-lg"
+                                    data-icon="verified">verified</span>
+                            </div>
+                            <div>
+                                <div class="text-[10px] font-headline font-bold text-on-surface uppercase">Validator
+                                    Active</div>
+                                <div class="text-[8px] font-mono text-outline uppercase">AI Protocol Check Engaged</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group aspect-square">
+                    <img alt="Satellite view of high-tech data center grid"
+                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 transition-all duration-700"
+                        data-alt="Satellite view of a complex digital infrastructure grid with cyan data paths and geometric energy conduits at night"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSeU7x6JFOz_ilDlCzGZsK6qfDpWDjnUnMJ8ZF9c3wE4VQi9MvQQxb7t382UKHP1VLgfcL9-1dZy0Upe27FUhoFPgseumJV3X9rUtSA10NWLAyX5purWhSFJXCufj_i1QGxDuTYO_mYO7BLVX3ezU9AS7TjCmw3FUIQRwSITfkvJ6sKDIU2KsLhvNjKGv-yeT1S59HjwHTW-maLZ0I1oclHgywhD273BLmHT6mCzrxDaqxKz7CLdQ3XrVWYJKJg_voPAsjixlJ6dQj" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-80"></div>
+                    <div class="absolute bottom-6 left-6 right-6">
+                        <div class="font-headline font-black text-lg tracking-tighter text-on-surface uppercase">
+                            Sector_7G Visual</div>
+                        <div class="font-mono text-[10px] text-primary tracking-widest">LIVE_SURVEILLANCE_ON</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-black bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px] flex flex-col items-center gap-6 overflow-hidden">
+        <div class="flex gap-8 font-mono text-[10px] tracking-[0.2em] uppercase">
+            <a class="text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em]"
+                href="#">PROTOCOL</a>
+            <a class="text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em]"
+                href="#">RECORDS</a>
+            <a class="text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em]"
+                href="#">SECURITY_CORE</a>
+            <a class="text-slate-600 hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 hover:tracking-[0.3em]"
+                href="#">UPTIME</a>
+        </div>
+        <div class="text-slate-600 font-mono text-[10px] tracking-[0.2em]">
+            © 2124 FINOVA_SYSTEMS_GLOBAL // ENCRYPTED_CONNECTION
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-30">
+        </div>
+    </footer>
+</body>
+
+</html>

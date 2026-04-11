@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#490006",
+                        "surface": "#080c22",
+                        "surface-dim": "#080c22",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-tint": "#61f4d8",
+                        "tertiary-container": "#cad6ff",
+                        "on-tertiary": "#475275",
+                        "error-dim": "#d7383b",
+                        "on-primary-container": "#00332b",
+                        "on-surface-variant": "#a6a9c6",
+                        "secondary-fixed": "#45fec9",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "secondary-container": "#006c52",
+                        "primary": "#61f4d8",
+                        "surface-bright": "#242a4c",
+                        "on-secondary-fixed": "#004937",
+                        "background": "#080c22",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "secondary-dim": "#2cefbc",
+                        "error": "#ff716c",
+                        "inverse-on-surface": "#50536d",
+                        "surface-container-low": "#0d112a",
+                        "on-primary": "#00594c",
+                        "on-background": "#e2e4ff",
+                        "on-tertiary-fixed": "#2b3758",
+                        "surface-container-highest": "#1e2343",
+                        "on-secondary": "#005d47",
+                        "on-primary-fixed": "#00443a",
+                        "surface-container": "#131832",
+                        "inverse-primary": "#006c5c",
+                        "error-container": "#9f0519",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "primary-dim": "#4fe5ca",
+                        "primary-container": "#08c1a6",
+                        "on-surface": "#e2e4ff",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#45fec9",
+                        "on-primary-fixed-variant": "#006455",
+                        "surface-container-high": "#181d3b",
+                        "tertiary-dim": "#bcc8f1",
+                        "outline-variant": "#43465f",
+                        "on-tertiary-container": "#3e4a6c",
+                        "on-secondary-container": "#dffff0",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary": "#dee4ff",
+                        "surface-variant": "#1e2343",
+                        "primary-fixed": "#61f4d8",
+                        "on-secondary-fixed-variant": "#006850",
+                        "outline": "#70748f",
+                        "tertiary-fixed": "#cad6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .crt-scanline {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .cargo-bay-open details[open] summary~* {
+            animation: sweep 0.4s ease-out;
+        }
+
+        @keyframes sweep {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            background: rgba(30, 35, 67, 0.4);
+            border-left: 2px solid rgba(97, 244, 216, 0.2);
+        }
+
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary-container">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-slate-950/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_0_20px_rgba(97,244,216,0.1)] flex justify-between items-center w-full px-12 py-4">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+            FINOVA 2.0</div>
+        <div class="hidden md:flex items-center gap-8 font-headline uppercase tracking-widest text-sm font-bold">
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300" href="#">COMMAND</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300" href="#">VAULT</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300" href="#">TACTICAL</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300" href="#">TERMINAL</a>
+            <a class="text-slate-400 hover:text-[#61f4d8] transition-colors duration-300" href="#">LOGS</a>
+        </div>
+        <button
+            class="bg-[#61f4d8] text-[#00332b] px-6 py-2 font-headline font-black tracking-widest text-xs hover:shadow-[0_0_15px_rgba(97,244,216,0.3)] active:scale-95 transition-all duration-150">
+            INITIALIZE
+        </button>
+    </nav>
+    <!-- SideNavBar -->
+    <aside
+        class="fixed left-0 h-screen w-20 hover:w-64 group transition-all duration-500 rounded-none border-r border-[#61f4d8]/10 bg-[#080c22]/90 backdrop-blur-md z-40 hidden md:flex flex-col h-full py-8">
+        <div class="flex flex-col items-center group-hover:items-start px-6 mb-12">
+            <div class="w-10 h-10 bg-primary-container flex items-center justify-center">
+                <span class="material-symbols-outlined text-on-primary-container">account_circle</span>
+            </div>
+            <div class="hidden group-hover:block mt-4">
+                <p class="font-headline font-bold text-sm text-[#45fec9]">OPERATOR_01</p>
+                <p class="font-mono text-[10px] text-outline">SECTOR_7G</p>
+            </div>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+            <div
+                class="flex items-center gap-4 px-6 py-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                <span class="material-symbols-outlined">sensors</span>
+                <span class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">SYSTEM_STATUS</span>
+            </div>
+            <div
+                class="flex items-center gap-4 px-6 py-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                <span class="material-symbols-outlined">bar_chart</span>
+                <span class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">MARKET_DEPTH</span>
+            </div>
+            <div
+                class="flex items-center gap-4 px-6 py-4 text-slate-500 opacity-60 hover:opacity-100 hover:bg-[#1e2343] transition-all cursor-pointer">
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                <span class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">WALLET_SYNC</span>
+            </div>
+            <div
+                class="flex items-center gap-4 px-6 py-4 bg-[#61f4d8]/20 text-[#61f4d8] border-l-4 border-[#61f4d8] transition-all cursor-pointer">
+                <span class="material-symbols-outlined">radar</span>
+                <span class="hidden group-hover:block font-mono text-xs uppercase tracking-tighter">SIGNAL_FEED</span>
+            </div>
+        </div>
+        <div class="px-4 mt-auto">
+            <button
+                class="w-full bg-secondary-container py-3 hidden group-hover:block font-headline font-bold text-[10px] tracking-widest text-on-secondary-container hover:bg-secondary transition-colors">
+                DEPLOY_LIQUIDITY
+            </button>
+        </div>
+    </aside>
+    <main class="pt-32 pb-24 px-6 md:pl-32 md:pr-12 min-h-screen relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-secondary/5 rounded-full blur-[100px] -z-10"></div>
+        <div class="crt-scanline fixed inset-0 z-10 opacity-30 pointer-events-none"></div>
+        <!-- Hero Section -->
+        <header class="max-w-5xl mb-20">
+            <div class="inline-flex items-center gap-2 border border-primary/30 px-3 py-1 mb-6">
+                <span class="w-2 h-2 bg-primary animate-pulse"></span>
+                <span class="font-mono text-[10px] tracking-[0.3em] text-primary">ENCRYPTED_KNOWLEDGE_BASE</span>
+            </div>
+            <h1
+                class="text-6xl md:text-8xl font-black font-headline text-white leading-none tracking-tighter uppercase mb-6">
+                Terminal <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Protocols</span>
+            </h1>
+            <p class="text-on-surface-variant font-body text-xl max-w-2xl leading-relaxed">
+                Access core system logic and operational parameters. If the intelligence you seek is not indexed,
+                contact your sector commander immediately.
+            </p>
+        </header>
+        <!-- FAQ Content Grid -->
+        <section class="max-w-5xl grid grid-cols-1 gap-8 relative">
+            <!-- Category Header -->
+            <div class="flex items-end justify-between border-b-2 border-outline-variant pb-4 mb-4">
+                <h2 class="font-headline font-bold text-2xl tracking-tighter text-primary flex items-center gap-3">
+                    <span class="material-symbols-outlined">terminal</span>
+                    SYSTEM_OPERATIONS
+                </h2>
+                <span class="font-mono text-[10px] text-outline">BATCH_REF_4402</span>
+            </div>
+            <!-- Accordion Drawer 1 -->
+            <div class="cargo-bay-open group">
+                <details class="w-full">
+                    <summary
+                        class="flex items-center justify-between p-8 bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer border-l-4 border-transparent hover:border-primary">
+                        <div class="flex flex-col">
+                            <span class="font-mono text-[10px] text-primary mb-1 tracking-widest">[ PROTOCOL_01 ]</span>
+                            <h3
+                                class="font-headline font-bold text-xl uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                                HOW DO I INITIALIZE MY FIRST LIQUIDITY NODE?</h3>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-primary group-hover:rotate-45 transition-transform">add</span>
+                    </summary>
+                    <div
+                        class="p-8 glass-panel text-on-surface-variant font-body leading-relaxed border-t border-primary/10">
+                        <p class="mb-4">To initialize a node, navigate to the <span class="text-primary">TERMINAL</span>
+                            sector and execute the <code class="bg-black/50 px-2 py-1 text-secondary">FINOVA_INIT</code>
+                            command. Ensure your vault is synced with the global ledger (at least 3 confirmations
+                            required).</p>
+                        <ul class="space-y-2 font-mono text-sm">
+                            <li class="flex items-center gap-2"><span class="text-primary">&gt;&gt;</span> Verified
+                                WALLET_SYNC status</li>
+                            <li class="flex items-center gap-2"><span class="text-primary">&gt;&gt;</span> Minimum fuel
+                                of 0.05 ETH for gas consumption</li>
+                            <li class="flex items-center gap-2"><span class="text-primary">&gt;&gt;</span> Biometric
+                                authorization check</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+            <!-- Accordion Drawer 2 -->
+            <div class="cargo-bay-open group">
+                <details class="w-full">
+                    <summary
+                        class="flex items-center justify-between p-8 bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer border-l-4 border-transparent hover:border-primary">
+                        <div class="flex flex-col">
+                            <span class="font-mono text-[10px] text-primary mb-1 tracking-widest">[ PROTOCOL_02 ]</span>
+                            <h3
+                                class="font-headline font-bold text-xl uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                                WHAT IS THE PENALTY FOR EARLY LIQUIDITY WITHDRAWAL?</h3>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-primary group-hover:rotate-45 transition-transform">add</span>
+                    </summary>
+                    <div
+                        class="p-8 glass-panel text-on-surface-variant font-body leading-relaxed border-t border-primary/10">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <p>Withdrawing before the <span class="text-white font-bold">EPOCH_FINALIZATION</span>
+                                    triggers a tactical reallocation fee of 15%. This maintains system stability during
+                                    high-volatility events.</p>
+                            </div>
+                            <div class="bg-surface-container-lowest p-4 border border-error/20">
+                                <h4 class="font-headline font-black text-xs text-error mb-2 tracking-widest">CRITICAL
+                                    WARNING</h4>
+                                <p class="text-xs font-mono">Withdrawals during red-zone market depth may result in
+                                    slippage beyond projected parameters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
+            <!-- Accordion Drawer 3 -->
+            <div class="cargo-bay-open group">
+                <details class="w-full">
+                    <summary
+                        class="flex items-center justify-between p-8 bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer border-l-4 border-transparent hover:border-primary">
+                        <div class="flex flex-col">
+                            <span class="font-mono text-[10px] text-primary mb-1 tracking-widest">[ PROTOCOL_03 ]</span>
+                            <h3
+                                class="font-headline font-bold text-xl uppercase tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                                CAN I OPERATE MULTIPLE SECTOR IDENTIFIERS?</h3>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-primary group-hover:rotate-45 transition-transform">add</span>
+                    </summary>
+                    <div
+                        class="p-8 glass-panel text-on-surface-variant font-body leading-relaxed border-t border-primary/10">
+                        <p>Finova 2.0 supports multi-sector orchestration for Advanced Tier operators. You can link up
+                            to 5 <span class="text-secondary font-mono italic">Sub-IDs</span> to a single master Command
+                            Key, allowing for distributed liquidity strategies across diverse signal feeds.</p>
+                    </div>
+                </details>
+            </div>
+            <!-- Featured Promo Module (Bento Style) -->
+            <div class="grid md:grid-cols-3 gap-6 mt-12">
+                <div
+                    class="md:col-span-2 bg-gradient-to-br from-primary-container to-secondary-container p-8 relative overflow-hidden flex flex-col justify-end min-h-[300px]">
+                    <div class="absolute top-0 right-0 w-full h-full opacity-30 mix-blend-overlay">
+                        <img class="w-full h-full object-cover"
+                            data-alt="Futuristic cybernetic interface with complex data visualizations and glowing neon circuits in cyan and deep blue"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH2Ilzd0xVVvGkyjHlQ2Kswcu-KZTnSYbKwbc1muXCdVLGEUuSaXQn5xwBcu-N1jvvqz0XL9Gqdny6mxxfqUvp4YHTXsZFj3GJg46YnqWgcbgpVXiB8mM2e224XN4KmbY9lOqv5kNuRmop_64ANWqg_tJoMrlNo4n7V4EdQoDO0xPeHGQS4qpo0IaCj63MGC0pcRxH-jRNdDDa1ZassAluT1FUopLHETTQzO14-9K8L3LZDks2Km5sd1uGLOvrxYWboRsborIafLwj" />
+                    </div>
+                    <div class="relative z-10">
+                        <h4 class="font-headline font-black text-4xl text-white uppercase tracking-tighter mb-4">
+                            Tactical Support<br />Live Terminal</h4>
+                        <p class="text-on-secondary-container max-w-sm mb-6 font-medium">Need immediate tactical data?
+                            Our AI-driven support drones are active 24/7 in the Signal Feed.</p>
+                        <button
+                            class="inline-flex items-center gap-3 bg-white text-surface px-6 py-3 font-headline font-bold uppercase tracking-widest text-sm hover:translate-x-2 transition-transform">
+                            OPEN_COMM_LINK
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-highest border-t-4 border-primary p-8 flex flex-col items-center justify-center text-center">
+                    <span class="material-symbols-outlined text-primary text-5xl mb-4"
+                        data-weight="fill">security</span>
+                    <h4 class="font-headline font-bold text-xl mb-2">SECURITY_CORE</h4>
+                    <p class="text-xs text-outline font-mono uppercase tracking-widest">
+                        Quantum-Resistant<br />Encryption Active</p>
+                    <div class="mt-8 pt-8 border-t border-outline-variant w-full">
+                        <span class="font-mono text-[10px] text-primary">UPTIME: 99.9992%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="relative w-full py-12 border-t border-[#61f4d8]/30 bg-black bg-[linear-gradient(to_right,#1e2343_1px,transparent_1px),linear-gradient(to_bottom,#1e2343_1px,transparent_1px)] bg-[size:40px_40px] flex flex-col items-center gap-6 w-full overflow-hidden">
+        <div class="flex gap-12 font-mono text-[10px] tracking-[0.2em] text-slate-600">
+            <a class="hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">PROTOCOL</a>
+            <a class="hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">RECORDS</a>
+            <a class="hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">SECURITY_CORE</a>
+            <a class="hover:text-[#45fec9] hover:drop-shadow-[0_0_5px_#45fec9] transition-all duration-500 uppercase"
+                href="#">UPTIME</a>
+        </div>
+        <p class="font-mono text-[10px] tracking-[0.2em] text-[#61f4d8] uppercase">
+            © 2124 FINOVA_SYSTEMS_GLOBAL // ENCRYPTED_CONNECTION
+        </p>
+        <!-- Decorative UI Element -->
+        <div class="absolute bottom-0 right-0 w-32 h-32 opacity-10">
+            <div class="w-full h-full border-r-2 border-b-2 border-primary"></div>
+        </div>
+    </footer>
+</body>
+
+</html>

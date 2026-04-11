@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Finova Dashboard - Operational Log</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-dim": "#2cefbc",
+                        "inverse-surface": "#fbf8ff",
+                        "surface-container-highest": "#1e2343",
+                        "outline-variant": "#43465f",
+                        "on-secondary": "#005d47",
+                        "error-container": "#9f0519",
+                        "on-primary": "#00594c",
+                        "primary-dim": "#4fe5ca",
+                        "surface-container-low": "#0d112a",
+                        "surface-dim": "#080c22",
+                        "on-primary-fixed": "#00443a",
+                        "surface-bright": "#242a4c",
+                        "inverse-on-surface": "#50536d",
+                        "on-tertiary-container": "#3e4a6c",
+                        "primary-fixed": "#61f4d8",
+                        "inverse-primary": "#006c5c",
+                        "on-secondary-fixed-variant": "#006850",
+                        "on-error": "#490006",
+                        "on-surface-variant": "#a6a9c6",
+                        "surface-container-high": "#181d3b",
+                        "tertiary-container": "#cad6ff",
+                        "tertiary-fixed": "#cad6ff",
+                        "background": "#080c22",
+                        "on-secondary-fixed": "#004937",
+                        "on-primary-container": "#00332b",
+                        "surface-tint": "#61f4d8",
+                        "surface": "#080c22",
+                        "error-dim": "#d7383b",
+                        "outline": "#70748f",
+                        "surface-container": "#131832",
+                        "secondary-container": "#006c52",
+                        "error": "#ff716c",
+                        "on-surface": "#e2e4ff",
+                        "on-background": "#e2e4ff",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#45fec9",
+                        "primary": "#61f4d8",
+                        "tertiary": "#dee4ff",
+                        "on-tertiary": "#475275",
+                        "on-tertiary-fixed": "#2b3758",
+                        "tertiary-dim": "#bcc8f1",
+                        "secondary-fixed": "#45fec9",
+                        "surface-variant": "#1e2343",
+                        "secondary-fixed-dim": "#2cefbc",
+                        "primary-fixed-dim": "#4fe5ca",
+                        "on-secondary-container": "#dffff0",
+                        "on-error-container": "#ffa8a3",
+                        "tertiary-fixed-dim": "#bcc8f1",
+                        "on-primary-fixed-variant": "#006455",
+                        "on-tertiary-fixed-variant": "#485376",
+                        "primary-container": "#08c1a6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.0rem",
+                        "lg": "0.0rem",
+                        "xl": "0.0rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .crt-scanline {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .glow-text-primary {
+            text-shadow: 0 0 8px rgba(97, 244, 216, 0.6);
+        }
+
+        .data-packet-hover:hover {
+            background: linear-gradient(90deg, rgba(97, 244, 216, 0.05) 0%, transparent 100%);
+            border-left: 4px solid #61f4d8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080c22;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #61f4d8;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background font-body text-on-surface selection:bg-primary selection:text-on-primary-container overflow-hidden">
+    <!-- TopNavBar Shell -->
+    <nav
+        class="fixed top-0 w-full z-50 rounded-none bg-[#080c22]/80 backdrop-blur-xl border-b border-[#61f4d8]/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)] flex justify-between items-center px-8 h-20 w-full max-w-[1920px] mx-auto">
+        <div
+            class="text-2xl font-black tracking-tighter text-[#61f4d8] drop-shadow-[0_0_8px_rgba(97,244,216,0.5)] font-headline">
+            FINOVA 2.0</div>
+        <div class="hidden md:flex gap-8 items-center">
+            <a class="font-headline uppercase tracking-widest font-bold text-[#a6a9c6] hover:text-[#61f4d8] transition-colors active:scale-95"
+                href="#">COMMAND</a>
+            <a class="font-headline uppercase tracking-widest font-bold text-[#a6a9c6] hover:text-[#61f4d8] transition-colors active:scale-95"
+                href="#">VAULT</a>
+            <a class="font-headline uppercase tracking-widest font-bold text-[#ffffff] border-b-2 border-[#61f4d8] pb-1 active:scale-95"
+                href="#">TACTICAL</a>
+            <a class="font-headline uppercase tracking-widest font-bold text-[#a6a9c6] hover:text-[#61f4d8] transition-colors active:scale-95"
+                href="#">TERMINAL</a>
+            <a class="font-headline uppercase tracking-widest font-bold text-[#a6a9c6] hover:text-[#61f4d8] transition-colors active:scale-95"
+                href="#">LOGS</a>
+        </div>
+        <button
+            class="bg-[#61f4d8] text-[#00594c] px-6 py-2 font-headline font-bold uppercase tracking-widest hover:bg-[#61f4d8]/90 transition-all hover:shadow-[0_0_15px_rgba(97,244,216,0.3)] active:scale-95">INITIALIZE</button>
+    </nav>
+    <div class="flex pt-20 h-screen">
+        <!-- SideNavBar Shell -->
+        <aside
+            class="fixed left-0 top-20 h-[calc(100vh-80px)] w-64 bg-[#000000] border-r border-[#61f4d8]/10 flex flex-col z-40 bg-gradient-to-b from-[#080c22] to-[#000000]">
+            <div class="p-6 border-b border-[#61f4d8]/10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 border border-primary p-0.5">
+                        <img alt="User Pilot Profile" class="w-full h-full object-cover"
+                            data-alt="High-tech cyberpunk pilot avatar with digital HUD overlay and neon highlights"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhjpeEuGHLloWPnYxI7YmE4e7TYuBaOgblbMBlkJQNvzAm5zqdz7fGtX_j2pjmagcm21_tWVdyABKd790uE9hPoUKMFp1KUkXcIgMNzLoNWtYG-DoWI6wGW2eB8cTny1BetEyamNnNBtMsG4PV9TQ39OUgoYqpsdLRO08FQSG8Dghku9zcaqg7sLkbZmKvBr-FtGjomvmte_1CNZ50NhFVL9ZCyRmIJoAnoRE-IT-Witcsc00yVV8B9uzq3OqOqn2rohaBGRvdCd_S" />
+                    </div>
+                    <div>
+                        <div class="text-[#61f4d8] font-bold font-headline text-sm tracking-tight">OPERATOR_01</div>
+                        <div class="text-[#43465f] text-[10px] font-headline uppercase tracking-widest">SECTOR_7G</div>
+                    </div>
+                </div>
+            </div>
+            <nav class="flex-1 py-4">
+                <a class="flex items-center gap-4 px-6 py-4 text-[#43465f] opacity-80 font-headline font-medium text-xs tracking-tighter hover:bg-[#1e2343] hover:text-[#ffffff] transition-all duration-300"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span> DASHBOARD
+                </a>
+                <a class="flex items-center gap-4 px-6 py-4 bg-[#61f4d8]/20 text-[#61f4d8] border-l-4 border-[#61f4d8] font-headline font-medium text-xs tracking-tighter transition-all duration-300"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="account_balance_wallet"
+                        style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span> PORTFOLIO
+                </a>
+                <a class="flex items-center gap-4 px-6 py-4 text-[#43465f] opacity-80 font-headline font-medium text-xs tracking-tighter hover:bg-[#1e2343] hover:text-[#ffffff] transition-all duration-300"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="monitoring">monitoring</span> ASSETS
+                </a>
+                <a class="flex items-center gap-4 px-6 py-4 text-[#43465f] opacity-80 font-headline font-medium text-xs tracking-tighter hover:bg-[#1e2343] hover:text-[#ffffff] transition-all duration-300"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="hub">hub</span> NETWORK
+                </a>
+                <a class="flex items-center gap-4 px-6 py-4 text-[#43465f] opacity-80 font-headline font-medium text-xs tracking-tighter hover:bg-[#1e2343] hover:text-[#ffffff] transition-all duration-300"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+                    SECURITY
+                </a>
+            </nav>
+            <div class="p-6">
+                <button
+                    class="w-full py-3 border border-secondary text-secondary font-headline font-bold text-xs tracking-[0.2em] hover:bg-secondary hover:text-on-secondary transition-all active:scale-95 uppercase">DECRYPT</button>
+            </div>
+        </aside>
+        <!-- Main Content Canvas -->
+        <main class="ml-64 flex-1 overflow-y-auto bg-surface relative">
+            <div class="crt-scanline absolute inset-0 z-10 opacity-20"></div>
+            <div class="max-w-6xl mx-auto p-10 relative z-20">
+                <!-- Header / Mission Title -->
+                <header class="mb-12 border-l-4 border-primary pl-6 py-2">
+                    <h1
+                        class="text-4xl font-headline font-black text-white tracking-tighter glow-text-primary uppercase mb-2">
+                        Operational Log</h1>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-headline text-primary-dim tracking-[0.3em] font-bold">STATUS:
+                            SYSTEM_SYNC_ACTIVE</span>
+                        <div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+                        <span class="text-[10px] font-headline text-on-surface-variant uppercase">Last Update:
+                            2024.11.05.0844</span>
+                    </div>
+                </header>
+                <!-- Data Packet Table (Bento / Grid Hybrid) -->
+                <div class="space-y-4">
+                    <!-- Row Header -->
+                    <div
+                        class="grid grid-cols-12 gap-4 px-6 py-2 text-[10px] font-headline font-bold text-outline uppercase tracking-widest">
+                        <div class="col-span-1">ID</div>
+                        <div class="col-span-4">Protocol / Event Designation</div>
+                        <div class="col-span-2">Execution Date</div>
+                        <div class="col-span-2">Operational Status</div>
+                        <div class="col-span-3 text-right">Authentication</div>
+                    </div>
+                    <!-- Row 1: Active -->
+                    <div
+                        class="grid grid-cols-12 gap-4 items-center bg-surface-container-high/50 border border-outline-variant/20 p-6 data-packet-hover transition-all duration-300">
+                        <div class="col-span-1 font-mono text-xs text-primary/60">#0482</div>
+                        <div class="col-span-4">
+                            <div class="font-headline font-bold text-lg text-white">NEURAL_SYNC_CONFERENCE_2024</div>
+                            <div class="text-[10px] text-on-surface-variant font-mono mt-1">UUID: 88-AF-99-XC-01</div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="text-sm font-mono text-on-surface">11.15.2024</div>
+                            <div class="text-[10px] text-outline uppercase">14:00 Zulu</div>
+                        </div>
+                        <div class="col-span-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 bg-primary/10 border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest glow-text-primary">
+                                <span class="w-1.5 h-1.5 bg-primary mr-2 animate-pulse"></span> ACTIVE
+                            </span>
+                        </div>
+                        <div class="col-span-3 text-right">
+                            <button
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-highest border border-outline-variant text-[10px] font-headline font-bold text-primary hover:bg-primary hover:text-on-primary transition-all group active:scale-95">
+                                <span class="material-symbols-outlined text-sm" data-icon="qr_code_2">qr_code_2</span>
+                                DOWNLOAD QR CODE
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Row 2: Pending -->
+                    <div
+                        class="grid grid-cols-12 gap-4 items-center bg-surface-container-high/50 border border-outline-variant/20 p-6 data-packet-hover transition-all duration-300">
+                        <div class="col-span-1 font-mono text-xs text-primary/60">#0511</div>
+                        <div class="col-span-4">
+                            <div class="font-headline font-bold text-lg text-white">QUANTUM_VAULT_DEPOSIT_SEC_7</div>
+                            <div class="text-[10px] text-on-surface-variant font-mono mt-1">UUID: 22-BR-77-QM-09</div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="text-sm font-mono text-on-surface">11.20.2024</div>
+                            <div class="text-[10px] text-outline uppercase">09:30 Zulu</div>
+                        </div>
+                        <div class="col-span-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary text-[10px] font-black uppercase tracking-widest">
+                                <span class="w-1.5 h-1.5 bg-tertiary mr-2"></span> PENDING
+                            </span>
+                        </div>
+                        <div class="col-span-3 text-right opacity-50 cursor-not-allowed">
+                            <button
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-highest border border-outline-variant text-[10px] font-headline font-bold text-outline-variant">
+                                <span class="material-symbols-outlined text-sm" data-icon="lock">lock</span>
+                                AUTH_PENDING
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Row 3: Completed -->
+                    <div
+                        class="grid grid-cols-12 gap-4 items-center bg-surface-container-high/50 border border-outline-variant/20 p-6 data-packet-hover transition-all duration-300">
+                        <div class="col-span-1 font-mono text-xs text-primary/60">#0399</div>
+                        <div class="col-span-4">
+                            <div class="font-headline font-bold text-lg text-white">GENESIS_DISTRIBUTION_WAVE_01</div>
+                            <div class="text-[10px] text-on-surface-variant font-mono mt-1">UUID: 10-GH-22-DX-55</div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="text-sm font-mono text-on-surface">10.30.2024</div>
+                            <div class="text-[10px] text-outline uppercase">EXPIRED</div>
+                        </div>
+                        <div class="col-span-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 bg-outline-variant/20 border border-outline-variant/40 text-on-surface-variant text-[10px] font-black uppercase tracking-widest">
+                                <span class="w-1.5 h-1.5 bg-outline-variant mr-2"></span> COMPLETED
+                            </span>
+                        </div>
+                        <div class="col-span-3 text-right">
+                            <button
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-highest border border-outline-variant text-[10px] font-headline font-bold text-on-surface-variant hover:bg-outline-variant hover:text-white transition-all active:scale-95">
+                                <span class="material-symbols-outlined text-sm"
+                                    data-icon="description">description</span> ARCHIVE_LOG
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Row 4: Active -->
+                    <div
+                        class="grid grid-cols-12 gap-4 items-center bg-surface-container-high/50 border border-outline-variant/20 p-6 data-packet-hover transition-all duration-300">
+                        <div class="col-span-1 font-mono text-xs text-primary/60">#0552</div>
+                        <div class="col-span-4">
+                            <div class="font-headline font-bold text-lg text-white">DEFI_STRATEGY_WORKSHOP_DELTA</div>
+                            <div class="text-[10px] text-on-surface-variant font-mono mt-1">UUID: 44-KL-33-ZX-81</div>
+                        </div>
+                        <div class="col-span-2">
+                            <div class="text-sm font-mono text-on-surface">12.01.2024</div>
+                            <div class="text-[10px] text-outline uppercase">18:00 Zulu</div>
+                        </div>
+                        <div class="col-span-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 bg-primary/10 border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest glow-text-primary">
+                                <span class="w-1.5 h-1.5 bg-primary mr-2 animate-pulse"></span> ACTIVE
+                            </span>
+                        </div>
+                        <div class="col-span-3 text-right">
+                            <button
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-highest border border-outline-variant text-[10px] font-headline font-bold text-primary hover:bg-primary hover:text-on-primary transition-all group active:scale-95">
+                                <span class="material-symbols-outlined text-sm" data-icon="qr_code_2">qr_code_2</span>
+                                DOWNLOAD QR CODE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer Summary Grid -->
+                <div class="mt-12 grid grid-cols-3 gap-6">
+                    <div class="bg-surface-container-low border border-primary/10 p-6">
+                        <div
+                            class="text-[10px] font-headline font-bold text-primary-dim uppercase tracking-[0.2em] mb-2">
+                            Total Engagements</div>
+                        <div class="text-4xl font-headline font-black text-white glow-text-primary">124</div>
+                    </div>
+                    <div class="bg-surface-container-low border border-primary/10 p-6">
+                        <div
+                            class="text-[10px] font-headline font-bold text-primary-dim uppercase tracking-[0.2em] mb-2">
+                            Active Protocols</div>
+                        <div class="text-4xl font-headline font-black text-white glow-text-primary">02</div>
+                    </div>
+                    <div class="bg-surface-container-low border border-primary/10 p-6">
+                        <div
+                            class="text-[10px] font-headline font-bold text-primary-dim uppercase tracking-[0.2em] mb-2">
+                            Net Efficiency</div>
+                        <div class="text-4xl font-headline font-black text-white glow-text-primary">98.4%</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Shell -->
+            <footer
+                class="w-full bg-[#080c22] border-t border-[#61f4d8]/30 py-12 px-10 flex flex-col md:flex-row justify-between items-center bg-[linear-gradient(rgba(97,244,216,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(97,244,216,0.05)_1px,transparent_1px)] bg-[size:20px_20px] cursor-none relative z-20">
+                <div class="text-[#61f4d8] font-headline text-[10px] uppercase tracking-[0.2em]">© 2024 FINOVA
+                    SOFTLAUNCH 2.0 // TACTICAL COMMAND</div>
+                <div class="flex gap-8 mt-6 md:mt-0">
+                    <a class="text-[#a6a9c6] font-headline text-[10px] uppercase tracking-[0.2em] hover:text-[#ffffff] hover:drop-shadow-[0_0_5px_rgba(97,244,216,0.8)] transition-all"
+                        href="#">PROTOCOL</a>
+                    <a class="text-[#a6a9c6] font-headline text-[10px] uppercase tracking-[0.2em] hover:text-[#ffffff] hover:drop-shadow-[0_0_5px_rgba(97,244,216,0.8)] transition-all"
+                        href="#">RESOURCES</a>
+                    <a class="text-[#a6a9c6] font-headline text-[10px] uppercase tracking-[0.2em] hover:text-[#ffffff] hover:drop-shadow-[0_0_5px_rgba(97,244,216,0.8)] transition-all"
+                        href="#">TERMINAL_ACCESS</a>
+                    <a class="text-[#a6a9c6] font-headline text-[10px] uppercase tracking-[0.2em] hover:text-[#ffffff] hover:drop-shadow-[0_0_5px_rgba(97,244,216,0.8)] transition-all"
+                        href="#">SUPPORT</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>
