@@ -5,8 +5,6 @@ import { useState } from "react";
 
 const links = [
   { href: "/dashboard",           icon: "dashboard",       label: "OVERVIEW"    },
-  { href: "/dashboard/register",  icon: "event_available", label: "EVENT_SIGNUP"},
-  { href: "/dashboard/my-events", icon: "list_alt",        label: "MY_RECORDS"  },
   { href: "/dashboard/team",      icon: "group",           label: "SQUAD"       },
   { href: "/dashboard/submit",    icon: "upload_file",     label: "PAYLOAD"     },
   { href: "/dashboard/profile",   icon: "person",          label: "PROFILE"     },
@@ -88,11 +86,10 @@ export default function DashboardSidebar() {
             DEPLOY_LIQUIDITY
           </button>
           <button 
-            onClick={() => {
+            onClick={async () => {
               setIsOpen(false);
-              document.cookie = "isLoggedIn=; path=/; max-age=0";
-              localStorage.removeItem("isLoggedIn");
-              window.location.href = "/login";
+              const { logoutAction } = await import("@/app/actions");
+              await logoutAction();
             }}
             className="w-full flex items-center gap-2 px-4 py-2 text-on-surface-variant hover:text-error font-mono text-[10px] uppercase transition-colors"
           >

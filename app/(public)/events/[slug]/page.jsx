@@ -1,10 +1,27 @@
-import { mockEvents } from "@/data/mockEvents";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  if (params.slug !== "finova-hackathon-2.0") return { title: "404 | NOT_FOUND" };
+  return { title: `FINOVA 2.0 | EVENT: FINOVA HACKATHON 2.0` };
+}
 
 export default function EventDetail({ params }) {
-  const event = mockEvents.find((e) => e.slug === params.slug) || mockEvents[0];
+  if (params.slug !== "finova-hackathon-2.0") {
+    notFound();
+  }
+
+  const event = {
+    name: "Finova Hackathon 2.0",
+    slug: "finova-hackathon-2.0",
+    status: "Open",
+    description: "The ultimate fintech hackathon to disrupt legacy systems. Assemble your squad and build the future of finance. A 48-hour intensive sprint involving decentralized protocols, AI analytics, and high-frequency trading simulations.",
+    date: "Oct 24-26, 2024",
+    venue: "MIT Manipal Innovation Center",
+    slots: { filled: 85, total: 200 }
+  };
   
   return (
     <div className="bg-surface text-on-surface font-body overflow-x-hidden min-h-screen">

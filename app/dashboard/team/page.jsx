@@ -1,30 +1,93 @@
-"use client";
-import { useState } from "react";
-import { mockTeam } from "@/data/mockTeam";
+import { createClient } from "@/lib/supabase/server";
 import TeamMemberSlot from "@/components/TeamMemberSlot";
+import TeamForms from "./TeamForms";
 
-export default function TeamPage() {
-  const [code, setCode] = useState("");
-  const [ok, setOk] = useState(false);
+export const metadata = { title: "FINOVA 2.0 | TEAM_PROTOCOL" };
+
+export default async function TeamPage() {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let teamMembers = [];
+  let userTeamId = null;
+  let inviteCode = null;
+
+  if (user) {
+    const { data: userMember } = await supabase
+      .from("team_members")
+      .select("team_id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (userMember?.team_id) {
+      userTeamId = userMember.team_id;
+      
+      const { data: teamData } = await supabase
+        .from("teams")
+        .select("invite_code")
+        .eq("id", userTeamId)
+        .single();
+      
+      if (teamData) inviteCode = teamData.invite_code;
+
+      const { data: members } = await supabase
+        .from("team_members")
+        .select(`
+          role,
+          users (
+            id,
+            name,
+            branch,
+            year
+          )
+        `)
+        .eq("team_id", userTeamId);
+
+      if (members) {
+        teamMembers = members.map(m => ({
+          name: m.users.name,
+          role: m.role,
+          branch: m.users.branch,
+          year: m.users.year,
+          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEcKWwyuv40UVxUYeTrniDm15pBOrjIQc1EQYZPaSwH5m0GgvQI_SchKQMY22C2Ke4hoAxiKgzM7uYoyo-XhCdEzChtzFN4OK0v5UO-jwpIdCFlc-XZrD2NqPxbPk7HnmCl1g3ID5nosNV1IQiP3L8YQsWH0PLE0zosjlVm0PVgkAasTQHNjcdvGfw1M0mp7D1CFZQJmJ2xrlGLY6ItHUxm9dO_GQKt2EA2zqzthoUjbAKS4e24qKB5TmpYlVvhAJJzpb2sIw-rVgS"
+        }));
+      }
+    }
+  }
+
   return (
     <section>
-      <h1 className="mb-8 font-headline text-6xl font-black uppercase tracking-tighter">Team_Protocol</h1>
-      <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-5">
-        {mockTeam.members.map((m, i) => <TeamMemberSlot key={i} member={m} />)}
+      <div className="flex justify-between items-end mb-8">
+        <h1 className="font-headline text-6xl font-black uppercase tracking-tighter">Team_Protocol</h1>
+        {inviteCode && (
+          <div className="text-right border-r-2 border-primary pr-4">
+            <p className="font-mono text-[9px] text-primary uppercase">Active Invite Code</p>
+            <p className="font-headline text-2xl font-black">{inviteCode}</p>
+          </div>
+        )}
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="border-l-4 border-secondary bg-surface-container-high p-8">
-          <h3 className="mb-4 font-headline text-xl font-black uppercase">Join_via_Code</h3>
-          <input value={code} onChange={(e)=>setCode(e.target.value)} className="w-full border-b-2 border-outline-variant bg-surface-container-lowest p-3" placeholder="X-7742-ALPHA-9" />
-          <button onClick={()=>setOk(code.length>=6)} className="mt-4 w-full bg-secondary py-3 font-bold text-surface">Synchronize</button>
+
+      {teamMembers.length > 0 ? (
+        <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+          {teamMembers.map((m, i) => <TeamMemberSlot key={i} member={m} />)}
+          {/* Add empty slots up to 5 */}
+          {Array.from({ length: Math.max(0, 5 - teamMembers.length) }).map((_, i) => (
+             <div key={`empty-${i}`} className="flex flex-col items-center justify-center border border-dashed border-outline-variant/30 bg-surface-container-low/50 p-6 min-h-[200px]">
+               <span className="material-symbols-outlined text-outline-variant/50 text-4xl mb-2">person_add</span>
+               <span className="font-mono text-[10px] text-outline-variant/50 uppercase tracking-widest">Awaiting Sync</span>
+             </div>
+          ))}
         </div>
-        <div className="border-l-4 border-primary bg-surface-container-high p-8">
-          <h3 className="mb-4 font-headline text-xl font-black uppercase">Deploy_Squad</h3>
-          <input className="w-full border-b-2 border-outline-variant bg-surface-container-lowest p-3" placeholder="OMEGA_STRAT" />
-          <button className="mt-4 w-full border-2 border-primary py-3 font-bold text-primary">Initialize_Core</button>
+      ) : (
+        <div className="border border-dashed border-primary/30 bg-primary/5 p-12 text-center">
+          <p className="font-mono text-primary uppercase tracking-widest text-sm mb-2">NO SQUAD DETECTED</p>
+          <p className="font-body text-outline-variant text-lg">You must form or join a squad to participate in the hackathon.</p>
         </div>
-      </div>
-      {ok && <p className="mt-3 text-teal-300">Team joined!</p>}
+      )}
+
+      {/* Forms if no team */}
+      {!userTeamId && <TeamForms />}
+
     </section>
   );
 }

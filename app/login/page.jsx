@@ -1,22 +1,24 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 
+import { loginAction } from "@/app/actions";
+
 export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const submit = (e) => {
-    e.preventDefault();
+  const submit = async (formData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
     if (!email.includes("@")) return setError("Valid email required");
-    if (password.length < 8) return setError("Password must be at least 8 chars");
-    localStorage.setItem("isLoggedIn", "true");
-    document.cookie = "isLoggedIn=true; path=/";
-    router.push("/dashboard");
+    if (password.length < 6) return setError("Access Key must be at least 6 characters");
+    
+    setError(""); // Clear previous errors
+    const res = await loginAction(formData);
+    if (res?.error) {
+      setError(res.error);
+    }
   };
 
   return (
@@ -66,23 +68,20 @@ export default function LoginPage() {
             {/* Inner Glow */}
             <div className="absolute inset-0 pointer-events-none border border-primary/5 shadow-[inset_0_0_40px_rgba(97,244,216,0.05)]" />
 
-            <form className="p-10 space-y-8 relative z-10" onSubmit={submit}>
+            <form className="p-10 space-y-8 relative z-10" action={submit}>
               {/* Email Field */}
               <div className="space-y-2">
                 <div className="flex justify-between items-end">
                   <label className="font-label text-[10px] uppercase tracking-widest text-primary/70">
-                    Terminal Address
+                    Operator_Email
                   </label>
-                  <span className="font-label text-[8px] text-outline-variant uppercase">
-                    @mit.manipal.edu
-                  </span>
                 </div>
                 <div className="relative">
                   <input
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="PILOT_ID"
+                    name="email"
+                    required
+                    placeholder="YOUR_EMAIL@DOMAIN.COM"
                     className="w-full bg-surface-container-lowest border-0 border-b-2 border-outline-variant py-4 px-0 font-label text-lg tracking-tight text-white placeholder:text-outline focus:ring-0 focus:border-primary transition-all duration-300 peer"
                   />
                   <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-primary shadow-[0_0_10px_#61f4d8] transition-all duration-500 peer-focus:w-full" />
@@ -93,15 +92,15 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-end">
                   <label className="font-label text-[10px] uppercase tracking-widest text-primary/70">
-                    Access Key
+                    Access_Key
                   </label>
                   <span className="material-symbols-outlined text-outline-variant text-sm">lock</span>
                 </div>
                 <div className="relative">
                   <input
                     type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    required
                     placeholder="••••••••••••"
                     className="w-full bg-surface-container-lowest border-0 border-b-2 border-outline-variant py-4 px-0 font-label text-lg tracking-tight text-white placeholder:text-outline focus:ring-0 focus:border-primary transition-all duration-300 peer"
                   />
@@ -124,22 +123,6 @@ export default function LoginPage() {
                   <span className="material-symbols-outlined text-lg">fingerprint</span>
                   BIO-SYNC
                 </button>
-
-                <div className="flex items-center gap-4 py-2">
-                  <div className="h-[1px] flex-1 bg-outline-variant/30" />
-                  <span className="font-label text-[10px] text-outline-variant uppercase tracking-widest">
-                    Protocol Override
-                  </span>
-                  <div className="h-[1px] flex-1 bg-outline-variant/30" />
-                </div>
-
-                <button
-                  type="button"
-                  className="w-full py-4 bg-surface-container-highest border border-outline-variant text-white font-label text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-white hover:text-surface transition-all duration-300"
-                >
-                  <span className="font-bold text-sm">G</span>
-                  CONTINUE WITH GOOGLE
-                </button>
               </div>
             </form>
 
@@ -155,8 +138,8 @@ export default function LoginPage() {
             <Link href="/faq" className="font-label text-[10px] text-outline-variant uppercase tracking-widest hover:text-primary transition-colors">
               Emergency Protocol?
             </Link>
-            <Link href="/register" className="font-label text-[10px] text-outline-variant uppercase tracking-widest hover:text-primary transition-colors">
-              Request Access
+            <Link href="/register" className="font-label text-[10px] text-primary uppercase tracking-widest hover:text-white transition-colors font-bold">
+              No Account? Initialize →
             </Link>
           </div>
         </div>
@@ -179,7 +162,7 @@ export default function LoginPage() {
       {/* ── Fixed Footer Bar ─────────────────────────────── */}
       <footer className="fixed bottom-0 w-full z-50 bg-[#080c22] border-t border-[#61f4d8]/30 px-10 py-4 flex flex-col md:flex-row justify-between items-center">
         <div className="font-headline text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
-          © 2024 FINOVA SOFTLAUNCH 2.0 // TACTICAL COMMAND
+          © 2024 FINOVA HACKATHON 2.0 // TACTICAL COMMAND
         </div>
         <div className="flex gap-8 mt-2 md:mt-0">
           <Link href="/about" className="font-headline text-[10px] uppercase tracking-[0.2em] text-on-surface-variant hover:text-white hover:drop-shadow-[0_0_5px_rgba(97,244,216,0.8)] transition-all">

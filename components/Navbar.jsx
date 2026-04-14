@@ -7,7 +7,6 @@ const navLinks = [
   { href: "/",         label: "COMMAND"  },
   { href: "/about",    label: "VAULT"    },
   { href: "/events",   label: "TACTICAL" },
-  { href: "/login",    label: "LOGIN" },
   { href: "/faq",      label: "LOGS"     },
 ];
 

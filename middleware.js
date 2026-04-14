@@ -1,13 +1,11 @@
-import { NextResponse } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
 
-export function middleware(req) {
-  const { pathname } = req.nextUrl;
-  const isLoggedIn = req.cookies.get("isLoggedIn")?.value === "true";
-  const isAdmin = req.cookies.get("isAdmin")?.value === "true";
-  if (pathname.startsWith("/dashboard") && !isLoggedIn) return NextResponse.redirect(new URL("/login", req.url));
-  if (pathname.startsWith("/admin") && !isAdmin) return NextResponse.redirect(new URL("/login", req.url));
-  if ((pathname === "/login" || pathname === "/register") && isLoggedIn) return NextResponse.redirect(new URL("/dashboard", req.url));
-  return NextResponse.next();
+export async function middleware(request) {
+  return await updateSession(request);
 }
 
-export const config = { matcher: ["/dashboard/:path*", "/admin/:path*", "/login", "/register"] };
+export const config = { 
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};

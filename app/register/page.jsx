@@ -1,25 +1,28 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import { registerAction } from "@/app/actions";
+
 export default function RegisterPage() {
-  const router = useRouter();
-  const [form, setForm] = useState({ name: "", email: "", roll: "", branch: "CSE", year: "2022", phone: "", password: "" });
   const [error, setError] = useState("");
 
-  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-
-  const submit = (e) => {
-    e.preventDefault();
-    if (!form.name || !form.email) return setError("All required fields are mandatory");
-    if (!form.email.includes("@")) return setError("Email format is invalid");
-    if (form.password.length < 8) return setError("Password min length is 8");
-    localStorage.setItem("isLoggedIn", "true");
-    document.cookie = "isLoggedIn=true; path=/";
-    router.push("/dashboard");
+  const submit = async (formData) => {
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    
+    if (!name || !email) return setError("All required fields are mandatory");
+    if (!email.includes("@")) return setError("Email format is invalid");
+    if (password.length < 6) return setError("Access Key must be at least 6 characters");
+    
+    setError("");
+    const res = await registerAction(formData);
+    if (res?.error) {
+      setError(res.error);
+    }
   };
 
   const inputCls = "w-full bg-surface-container-high/50 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-white placeholder:text-on-surface-variant/30 font-mono text-sm py-3 px-4 transition-all outline-none";
@@ -56,53 +59,37 @@ export default function RegisterPage() {
             {/* Header */}
             <header className="mb-12 border-l-4 border-primary pl-6">
               <p className="font-headline text-[10px] uppercase tracking-[0.4em] text-primary mb-2">
-                Protocol: Softlaunch_v2.0
+                Protocol: Hackathon_v2.0
               </p>
               <h1 className="font-headline text-4xl font-black text-white tracking-tighter uppercase leading-none">
                 Establish <span className="text-primary">Identity</span>
               </h1>
               <p className="text-on-surface-variant font-mono text-xs mt-2 uppercase tracking-tight">
-                Accessing MIT Manipal secure node // Registration required.
+                Register to access the Hackathon command center.
               </p>
             </header>
 
-            {/* Google OAuth */}
-            <div className="mb-10">
-              <button className="w-full group flex items-center justify-center gap-4 bg-surface-container-highest border border-outline-variant/40 py-4 hover:border-primary/60 transition-all active:scale-[0.98] relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="font-bold text-white text-sm">G</span>
-                <span className="font-headline font-bold text-sm tracking-widest uppercase">
-                  INITIALIZE WITH MIT EMAIL
-                </span>
-              </button>
-              <div className="flex items-center gap-4 my-8">
-                <div className="h-[1px] flex-1 bg-outline-variant/30" />
-                <span className="font-mono text-[10px] text-on-surface-variant uppercase">Manual Override</span>
-                <div className="h-[1px] flex-1 bg-outline-variant/30" />
-              </div>
-            </div>
-
             {/* Form */}
-            <form className="space-y-6" onSubmit={submit}>
+            <form className="space-y-6" action={submit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={labelCls}>Legal_Name</label>
-                  <input className={inputCls} placeholder="COMMANDER NAME" type="text" onChange={set("name")} />
+                  <label className={labelCls}>Operator_Name</label>
+                  <input className={inputCls} placeholder="COMMANDER NAME" type="text" name="name" required />
                 </div>
                 <div>
-                  <label className={labelCls}>Email_Node (MIT)</label>
-                  <input className={inputCls} placeholder="USER@LEARNER.MANIPAL.EDU" type="email" onChange={set("email")} />
+                  <label className={labelCls}>Operator_Email</label>
+                  <input className={inputCls} placeholder="USER@EMAIL.COM" type="email" name="email" required />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label className={labelCls}>Roll_ID</label>
-                  <input className={inputCls} placeholder="21XXXXXX" type="text" onChange={set("roll")} />
+                  <input className={inputCls} placeholder="21XXXXXX" type="text" name="roll" required />
                 </div>
                 <div>
                   <label className={labelCls}>Sector_Branch</label>
-                  <select className={inputCls} onChange={set("branch")}>
+                  <select className={inputCls} name="branch" defaultValue="CSE">
                     {["CSE", "IT", "CCE", "DSE", "OTHER"].map((b) => (
                       <option key={b} className="bg-surface-container">{b}</option>
                     ))}
@@ -110,7 +97,7 @@ export default function RegisterPage() {
                 </div>
                 <div>
                   <label className={labelCls}>Pilot_Year</label>
-                  <select className={inputCls} onChange={set("year")}>
+                  <select className={inputCls} name="year" defaultValue="2022">
                     {["2021", "2022", "2023", "2024"].map((y) => (
                       <option key={y} className="bg-surface-container">{y}</option>
                     ))}
@@ -121,11 +108,11 @@ export default function RegisterPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className={labelCls}>Comms_Link (PH)</label>
-                  <input className={inputCls} placeholder="+91 XXXX-XXXX" type="tel" onChange={set("phone")} />
+                  <input className={inputCls} placeholder="+91 XXXX-XXXX" type="tel" name="phone" required />
                 </div>
                 <div>
-                  <label className={labelCls}>Security_Key</label>
-                  <input className={inputCls} placeholder="••••••••" type="password" onChange={set("password")} />
+                  <label className={labelCls}>Access_Key</label>
+                  <input className={inputCls} placeholder="••••••••••••" type="password" name="password" required />
                 </div>
               </div>
 
@@ -145,12 +132,20 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              <p className="text-center font-mono text-[10px] text-on-surface-variant uppercase mt-4">
-                By deploying, you agree to the{" "}
-                <a href="#" className="text-primary hover:underline underline-offset-4">
-                  Security Protocol 40.B
-                </a>
-              </p>
+              <div className="text-center space-y-3 mt-4">
+                <p className="font-mono text-[10px] text-on-surface-variant uppercase">
+                  By deploying, you agree to the{" "}
+                  <a href="#" className="text-primary hover:underline underline-offset-4">
+                    Security Protocol 40.B
+                  </a>
+                </p>
+                <p className="font-mono text-[11px] text-on-surface-variant">
+                  Already initialized?{" "}
+                  <Link href="/login" className="text-primary hover:underline underline-offset-4 font-bold uppercase tracking-wider">
+                    Authenticate Here
+                  </Link>
+                </p>
+              </div>
             </form>
           </div>
 
@@ -162,7 +157,7 @@ export default function RegisterPage() {
               <div className="w-2 h-2 bg-outline-variant rounded-full" />
             </div>
             <div className="font-mono text-[10px] text-on-surface-variant">
-              NODE_TYPE: REGISTRATION_STATION_004
+              NODE_TYPE: REGISTRATION_STATION_001
             </div>
           </div>
         </div>

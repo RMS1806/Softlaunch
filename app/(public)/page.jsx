@@ -5,8 +5,8 @@ import Image from "next/image";
 import CountdownHero from "./CountdownHero";
 
 export const metadata = {
-  title: "FINOVA 2.0 | SOFTLAUNCH",
-  description: "Finance × Technology × MIT Manipal. 48-hour sprints, expert workshops, and tactical networking.",
+  title: "FINOVA 2.0 | HACKATHON",
+  description: "48-hour fintech hackathon at MIT Manipal. Build the next generation of DeFi infrastructure.",
 };
 
 export default function HomePage() {
@@ -73,17 +73,17 @@ export default function HomePage() {
           <div className="bg-surface-container-low p-8 border-l-4 border-primary-fixed font-mono text-on-surface-variant leading-relaxed">
             <p className="mb-4">&gt; FINOVA is the nexus where decentralized protocols meet academic excellence.</p>
             <p className="mb-4">&gt; We are re-engineering the financial stack from the ground up at MIT Manipal.</p>
-            <p className="text-white">&gt; Deploying 48-hour sprints, expert workshops, and tactical networking protocols.</p>
+            <p className="text-white">&gt; Deploying a 48-hour hackathon sprint to build the next generation of DeFi.</p>
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col">
-              <span className="text-primary text-3xl font-black">72H</span>
-              <span className="font-mono text-[10px] uppercase">Execution</span>
+              <span className="text-primary text-3xl font-black">48H</span>
+              <span className="font-mono text-[10px] uppercase">Sprint</span>
             </div>
             <div className="w-px h-12 bg-outline-variant" />
             <div className="flex flex-col">
-              <span className="text-primary text-3xl font-black">12+</span>
-              <span className="font-mono text-[10px] uppercase">Protocols</span>
+              <span className="text-primary text-3xl font-black">$10K+</span>
+              <span className="font-mono text-[10px] uppercase">Prize Pool</span>
             </div>
           </div>
         </div>
@@ -101,79 +101,65 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Tactical Events Bento Grid ──────────────────────── */}
-      <section className="py-24 px-12 bg-surface-container-low">
+      {/* ── The Hackathon — Featured Section ──────────────────── */}
+      <section className="py-24 px-6 md:px-12 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
             <div>
-              <p className="font-mono text-primary text-sm tracking-[0.4em] mb-2">OPERATIONAL_SCOPE</p>
-              <h2 className="text-5xl font-black font-headline uppercase tracking-tighter">Tactical Events</h2>
+              <p className="font-mono text-primary text-sm tracking-[0.4em] mb-2">THE_MAIN_EVENT</p>
+              <h2 className="text-5xl font-black font-headline uppercase tracking-tighter">The Hackathon</h2>
             </div>
             <Link
-              href="/schedule"
+              href="/events"
               className="font-mono text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2"
             >
-              VIEW_FULL_CALENDAR{" "}
+              VIEW_DETAILS{" "}
               <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Main Hackathon */}
-            <div className="md:col-span-2 md:row-span-2 bg-surface-container-highest p-8 relative overflow-hidden group">
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                  <span className="bg-primary/20 text-primary px-3 py-1 font-mono text-[10px] border border-primary/40">
-                    PRIMARY_NODE
-                  </span>
-                  <h3 className="text-4xl font-black font-headline mt-6 mb-4">THE FIN-SPRINT HACKATHON</h3>
-                  <p className="text-on-surface-variant font-body">
-                    48 hours of high-velocity development. Build the next generation of DeFi infrastructure.
-                  </p>
+          {/* Single Full-Width Hackathon Card */}
+          <div className="bg-surface-container-highest p-8 md:p-12 relative overflow-hidden group">
+            <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+              <div className="flex-1">
+                <span className="bg-primary/20 text-primary px-3 py-1 font-mono text-[10px] border border-primary/40">
+                  PRIMARY_NODE
+                </span>
+                <h3 className="text-4xl md:text-5xl font-black font-headline mt-6 mb-4">THE FIN-SPRINT HACKATHON</h3>
+                <p className="text-on-surface-variant font-body text-lg leading-relaxed mb-8">
+                  48 hours of high-velocity development. Build the next generation of DeFi infrastructure. 
+                  One event. One shot. Maximum impact.
+                </p>
+                <div className="flex flex-wrap gap-8 mb-8">
+                  <div className="flex flex-col">
+                    <span className="font-mono text-2xl text-primary font-black">$10K</span>
+                    <span className="font-mono text-[9px] text-outline uppercase">PRIZE_POOL</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-2xl text-white font-black">48H</span>
+                    <span className="font-mono text-[9px] text-outline uppercase">DURATION</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-2xl text-white font-black">200</span>
+                    <span className="font-mono text-[9px] text-outline uppercase">MAX_SLOTS</span>
+                  </div>
                 </div>
-                <div className="mt-12 flex justify-between items-end">
-                  <span className="font-mono text-2xl text-primary">$10K_PRIZE</span>
-                  <span className="material-symbols-outlined text-4xl group-hover:translate-x-2 transition-transform">
-                    bolt
-                  </span>
-                </div>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-3 bg-primary px-8 py-4 font-headline font-black text-on-primary-container uppercase tracking-widest hover:shadow-[0_0_30px_rgba(97,244,216,0.4)] transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined">bolt</span>
+                  REGISTER NOW
+                </Link>
               </div>
-              <div className="absolute bottom-0 right-0 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="flex-shrink-0">
                 <span
-                  className="material-symbols-outlined text-[15rem]"
+                  className="material-symbols-outlined text-[12rem] text-primary/10 group-hover:text-primary/20 transition-colors"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   code
                 </span>
               </div>
-            </div>
-
-            {/* Workshop */}
-            <div className="md:col-span-2 bg-surface p-6 border-r-4 border-secondary transition-all hover:bg-surface-bright">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-mono text-[10px] text-secondary">TACTICAL_INTEL</p>
-                  <h3 className="text-xl font-bold font-headline mt-2">ALGO-TRADING WORKSHOP</h3>
-                </div>
-                <span className="material-symbols-outlined text-secondary">monitoring</span>
-              </div>
-              <p className="mt-4 text-on-surface-variant text-sm">
-                Deep dive into HFT and quantitative strategies with industry veterans.
-              </p>
-            </div>
-
-            {/* Networking */}
-            <div className="bg-surface-container p-6 hover:shadow-[inset_0_0_20px_rgba(97,244,216,0.1)] transition-all">
-              <p className="font-mono text-[10px] text-primary">NETWORK</p>
-              <h3 className="text-xl font-bold font-headline mt-2">FOUNDER_CONNECT</h3>
-              <span className="material-symbols-outlined mt-4 text-primary">hub</span>
-            </div>
-
-            {/* Recruitment */}
-            <div className="bg-surface-container p-6 hover:shadow-[inset_0_0_20px_rgba(69,254,201,0.1)] transition-all">
-              <p className="font-mono text-[10px] text-secondary">CAREERS</p>
-              <h3 className="text-xl font-bold font-headline mt-2">TALENT_PIPELINE</h3>
-              <span className="material-symbols-outlined mt-4 text-secondary">person_search</span>
             </div>
           </div>
         </div>

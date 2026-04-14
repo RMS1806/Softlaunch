@@ -1,73 +1,16 @@
-"use client";
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { createClient } from "@/lib/supabase/server";
+import FAQAccordion from "./FAQAccordion";
 
-const faqs = [
-  {
-    ref: "PROTOCOL_01",
-    question: "HOW DO I INITIALIZE MY FIRST LIQUIDITY NODE?",
-    answer: (
-      <div>
-        <p className="mb-4">
-          To initialize a node, navigate to the{" "}
-          <span className="text-primary">TERMINAL</span> sector and execute the{" "}
-          <code className="bg-black/50 px-2 py-1 text-secondary">FINOVA_INIT</code> command. Ensure your vault
-          is synced with the global ledger (at least 3 confirmations required).
-        </p>
-        <ul className="space-y-2 font-mono text-sm">
-          <li className="flex items-center gap-2"><span className="text-primary">&gt;&gt;</span> Verified WALLET_SYNC status</li>
-          <li className="flex items-center gap-2"><span className="text-primary">&gt;&gt;</span> Minimum fuel of 0.05 ETH for gas consumption</li>
-          <li className="flex items-center gap-2"><span className="text-primary">&gt;&gt;</span> Biometric authorization check</li>
-        </ul>
-      </div>
-    ),
-  },
-  {
-    ref: "PROTOCOL_02",
-    question: "WHAT IS THE PENALTY FOR EARLY LIQUIDITY WITHDRAWAL?",
-    answer: (
-      <div className="grid md:grid-cols-2 gap-8">
-        <p>
-          Withdrawing before the <span className="text-white font-bold">EPOCH_FINALIZATION</span> triggers a
-          tactical reallocation fee of 15%. This maintains system stability during high-volatility events.
-        </p>
-        <div className="bg-surface-container-lowest p-4 border border-error/20">
-          <h4 className="font-headline font-black text-xs text-error mb-2 tracking-widest">CRITICAL WARNING</h4>
-          <p className="text-xs font-mono">
-            Withdrawals during red-zone market depth may result in slippage beyond projected parameters.
-          </p>
-        </div>
-      </div>
-    ),
-  },
-  {
-    ref: "PROTOCOL_03",
-    question: "CAN I OPERATE MULTIPLE SECTOR IDENTIFIERS?",
-    answer: (
-      <p>
-        Finova 2.0 supports multi-sector orchestration for Advanced Tier operators. You can link up to 5{" "}
-        <span className="text-secondary font-mono italic">Sub-IDs</span> to a single master Command Key,
-        allowing for distributed liquidity strategies across diverse signal feeds.
-      </p>
-    ),
-  },
-  {
-    ref: "PROTOCOL_04",
-    question: "HOW ARE HACKATHON TEAMS ASSEMBLED?",
-    answer: (
-      <p>
-        Teams of 2–4 members can self-assemble via the <span className="text-primary">SQUAD_ASSEMBLY</span>{" "}
-        dashboard. Solo pilots may request automatic squad matching through the{" "}
-        <code className="bg-black/50 px-2 py-1 text-secondary font-mono">match_pilot --auto</code> command.
-        All squads must be locked before the EPOCH begins.
-      </p>
-    ),
-  },
-];
+export const metadata = { title: "FINOVA 2.0 | TERMINAL_PROTOCOLS" };
 
-export default function FAQPage() {
-  const [open, setOpen] = useState(null);
+export default async function FAQPage() {
+  const supabase = createClient();
+  const { data: faqs } = await supabase
+    .from("faqs")
+    .select("*")
+    .order("sort_order", { ascending: true });
 
   return (
     <div className="bg-surface text-on-surface font-body overflow-x-hidden">
@@ -105,51 +48,31 @@ export default function FAQPage() {
               <span className="material-symbols-outlined">terminal</span>
               SYSTEM_OPERATIONS
             </h2>
-            <span className="font-mono text-[10px] text-outline">BATCH_REF_4402</span>
+            <span className="font-mono text-[10px] text-outline">{faqs?.length || 0} PROTOCOLS INDEXED</span>
           </div>
 
-          <div className="space-y-2 mb-12">
-            {faqs.map((faq, i) => (
-              <div key={faq.ref} className="group">
-                <button
-                  onClick={() => setOpen(open === i ? null : i)}
-                  className={`w-full flex items-center justify-between p-8 bg-surface-container hover:bg-surface-container-high transition-all border-l-4 ${open === i ? "border-primary" : "border-transparent hover:border-primary"}`}
-                >
-                  <div className="flex flex-col text-left">
-                    <span className="font-mono text-[10px] text-primary mb-1 tracking-widest">[ {faq.ref} ]</span>
-                    <h3 className={`font-headline font-bold text-xl uppercase tracking-tight transition-colors ${open === i ? "text-primary" : "text-on-surface group-hover:text-primary"}`}>
-                      {faq.question}
-                    </h3>
-                  </div>
-                  <span className={`material-symbols-outlined text-primary transition-transform ${open === i ? "rotate-45" : ""}`}>
-                    add
-                  </span>
-                </button>
-                {open === i && (
-                  <div className="p-8 border-t border-primary/10 text-on-surface-variant font-body leading-relaxed"
-                    style={{ backdropFilter: "blur(12px)", background: "rgba(30,35,67,0.4)", borderLeft: "2px solid rgba(97,244,216,0.2)" }}
-                  >
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          {faqs && faqs.length > 0 ? (
+            <FAQAccordion faqs={faqs} />
+          ) : (
+            <div className="text-center font-mono text-on-surface-variant p-10 border border-dashed border-outline-variant/30 mb-12">
+              NO PROTOCOLS FOUND IN DATABASE
+            </div>
+          )}
 
           {/* Promo Module */}
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             <div className="md:col-span-2 bg-gradient-to-br from-primary-container to-secondary-container p-8 relative overflow-hidden flex flex-col justify-end min-h-[300px]">
               <div className="relative z-10">
                 <h4 className="font-headline font-black text-4xl text-white uppercase tracking-tighter mb-4">
-                  Tactical Support<br />Live Terminal
+                  Tactical Support<br />Direct Comms
                 </h4>
                 <p className="text-on-secondary-container max-w-sm mb-6 font-medium">
-                  Need immediate tactical data? Our AI-driven support drones are active 24/7 in the Signal Feed.
+                  Have a query not covered in the protocols? Reach out directly to our command team.
                 </p>
-                <button className="inline-flex items-center gap-3 bg-white text-surface px-6 py-3 font-headline font-bold uppercase tracking-widest text-sm hover:translate-x-2 transition-transform">
-                  OPEN_COMM_LINK
-                  <span className="material-symbols-outlined">arrow_forward</span>
-                </button>
+                <a href="mailto:finova.support@manipal.edu" className="inline-flex items-center gap-3 bg-white text-surface px-6 py-3 font-headline font-bold uppercase tracking-widest text-sm hover:translate-x-2 transition-transform">
+                  finova.support@manipal.edu
+                  <span className="material-symbols-outlined">mail</span>
+                </a>
               </div>
             </div>
             <div className="bg-surface-container-highest border-t-4 border-primary p-8 flex flex-col items-center justify-center text-center">
