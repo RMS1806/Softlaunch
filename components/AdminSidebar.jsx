@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
   ["/admin", "Dashboard"], ["/admin/registrations", "Registrations"], ["/admin/teams", "Teams"],
-  ["/admin/config", "Event Config"], ["/admin/analytics", "Analytics"], ["/admin/announcements", "Announcements"],
+  ["/admin/problems", "Problem Statements"], ["/admin/config", "Event Config"], ["/admin/analytics", "Analytics"], ["/admin/announcements", "Announcements"],
 ];
 
 export default function AdminSidebar() {

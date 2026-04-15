@@ -1,20 +1,23 @@
 import { createClient } from "@/lib/supabase/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export default async function ProfilePage() {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const cookieStore = cookies();
+  const sessionEmail = cookieStore.get("session_email")?.value;
 
-  if (!user) {
+  if (!sessionEmail) {
     redirect("/login");
   }
 
-  // Fetch from public.users table
+  const supabase = createClient();
+
+  // Fetch from public.users table by email (session-based)
   const { data: profile } = await supabase
     .from("users")
     .select("*")
-    .eq("id", user.id)
+    .eq("email", sessionEmail)
     .single();
 
   if (!profile) {
@@ -36,12 +39,12 @@ export default async function ProfilePage() {
               <input className="w-full border-b-2 border-outline-variant/30 bg-transparent py-2 text-lg text-white outline-none focus:border-primary transition-colors" defaultValue={profile.name} readOnly />
             </div>
             <div>
-              <label className="text-[10px] uppercase text-primary tracking-widest font-mono mb-1 block">Communications Link</label>
-              <input className="w-full border-b-2 border-outline-variant/30 bg-transparent py-2 text-lg text-white outline-none focus:border-primary transition-colors" defaultValue={profile.phone || "No Comms Setup"} readOnly />
+              <label className="text-[10px] uppercase text-primary tracking-widest font-mono mb-1 block">Email</label>
+              <input className="w-full border-b-2 border-outline-variant/30 bg-transparent py-2 text-lg text-white outline-none focus:border-primary transition-colors" defaultValue={profile.email} readOnly />
             </div>
             <div>
-              <label className="text-[10px] uppercase text-primary tracking-widest font-mono mb-1 block">Sector / Branch</label>
-              <input className="w-full border-b-2 border-outline-variant/30 bg-transparent py-2 text-lg text-white outline-none focus:border-primary transition-colors" defaultValue={profile.branch} readOnly />
+              <label className="text-[10px] uppercase text-primary tracking-widest font-mono mb-1 block">Communications Link</label>
+              <input className="w-full border-b-2 border-outline-variant/30 bg-transparent py-2 text-lg text-white outline-none focus:border-primary transition-colors" defaultValue={profile.phone || "No Comms Setup"} readOnly />
             </div>
             <div>
               <label className="text-[10px] uppercase text-primary tracking-widest font-mono mb-1 block">Pilot Year</label>

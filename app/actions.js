@@ -3,99 +3,193 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { createHash } from "crypto";
+
+// ── Hardcoded Admin Emails ──────────────────────────────
+const ADMIN_EMAILS = [
+  "admin@finova.com",
+  // Add more admin emails here
+];
+
+const ADMIN_BYPASS_EMAIL = "admin@finova.com";
+const ADMIN_BYPASS_PASSWORD = "admin123";
+
+function isAdmin(email) {
+  return ADMIN_EMAILS.includes(email?.toLowerCase());
+}
+
+function isAdminBypassCredential(email, password) {
+  return email === ADMIN_BYPASS_EMAIL && password === ADMIN_BYPASS_PASSWORD;
+}
+
+// ── Helper: hash password ───────────────────────────────
+function hashPassword(password) {
+  return createHash("sha256").update(password).digest("hex");
+}
+
+// ── Helper: get current session user ────────────────────
+async function getSessionUser() {
+  const cookieStore = cookies();
+  const email = cookieStore.get("session_email")?.value;
+  if (!email) return null;
+
+  const supabase = createClient();
+  const { data: user } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (!user && isAdmin(email)) {
+    return { email, is_admin_bypass: true };
+  }
+
+  return user;
+}
+
+// ── Auth Actions ────────────────────────────────────────
 
 export async function loginAction(formData) {
   const supabase = createClient();
-  const email = formData.get("email");
+  const email = formData.get("email")?.toLowerCase()?.trim();
   const password = formData.get("password");
 
   if (!email || !password) {
     return { error: "Operator_Email and Access_Key are required." };
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  if (isAdminBypassCredential(email, password)) {
+    const cookieStore = cookies();
+    cookieStore.set("session_email", email, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
 
-  if (error) {
-    return { error: error.message };
+    revalidatePath("/", "layout");
+    redirect("/admin");
   }
 
+  // Look up user by email
+  const { data: user, error: dbError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (dbError || !user) {
+    return { error: "Invalid credentials. Identity not found." };
+  }
+
+  // Compare password hash
+  const inputHash = hashPassword(password);
+  if (user.password_hash !== inputHash) {
+    return { error: "Invalid credentials. Access denied." };
+  }
+
+  // Set session cookie
+  const cookieStore = cookies();
+  cookieStore.set("session_email", email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  });
+
   revalidatePath("/", "layout");
+
+  // Redirect admins to admin panel, others to dashboard
+  if (isAdmin(email)) {
+    redirect("/admin");
+  }
   redirect("/dashboard");
 }
 
 export async function registerAction(formData) {
   const supabase = createClient();
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const roll = formData.get("roll");
-  const branch = formData.get("branch");
+  const name = formData.get("name")?.trim();
+  const email = formData.get("email")?.toLowerCase()?.trim();
+  const roll = formData.get("roll")?.trim();
   const year = formData.get("year");
-  const phone = formData.get("phone");
+  const phone = formData.get("phone")?.trim();
   const password = formData.get("password");
 
   if (!name || !email || !roll || !password) {
     return { error: "Core fields missing. Verify input matrix." };
   }
 
-  // 1. Authenticate with Supabase Auth
-  const { data: authData, error: authError } = await supabase.auth.signUp({
+  // Check if email already exists
+  const { data: existingUser } = await supabase
+    .from("users")
+    .select("id")
+    .eq("email", email)
+    .single();
+
+  if (existingUser) {
+    return { error: "This email is already registered. Proceed to login." };
+  }
+
+  // Check if roll number already exists
+  const { data: existingRoll } = await supabase
+    .from("users")
+    .select("id")
+    .eq("roll_number", roll)
+    .single();
+
+  if (existingRoll) {
+    return { error: "This Roll ID is already registered." };
+  }
+
+  // Hash password and insert user
+  const passwordHash = hashPassword(password);
+
+  const { error: dbError } = await supabase.from("users").insert({
+    name,
     email,
-    password,
-    options: {
-      data: {
-        full_name: name,
-        roll_number: roll,
-        branch: branch,
-        academic_year: parseInt(year) || 1,
-        phone: phone,
-      },
-    },
+    roll_number: roll,
+    branch: "OTHER", // Branch removed from form, default to OTHER
+    year: year || "1",
+    phone: phone || null,
+    password_hash: passwordHash,
   });
 
-  if (authError) {
-    return { error: authError.message };
+  if (dbError) {
+    console.error("Registration failed:", dbError);
+    return { error: "Registration failed. Please try again." };
   }
 
-  // 2. Insert custom user record into public.users
-  if (authData.user) {
-    const { error: dbError } = await supabase.from("users").insert({
-      id: authData.user.id, // match the auth UUID
-      name: name,
-      email: email,
-      roll_number: roll,
-      branch: branch,
-      year: parseInt(year) || 1,
-      phone: phone,
-      // Note: password_hash isn't strictly necessary here since Supabase Auth handles password security,
-      // but if your schema requires it, we insert a placeholder or the raw (not recommended). 
-      // Assuming your schema allows omitting password_hash.
-    });
-
-    if (dbError) {
-      console.error("Profile creation failed:", dbError);
-      // We don't necessarily block login if profile fails, but it's good to log
-    }
-  }
+  // Set session cookie and go directly to dashboard
+  const cookieStore = cookies();
+  cookieStore.set("session_email", email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
 
   revalidatePath("/", "layout");
-  redirect("/verify-email");
+  redirect("/dashboard");
 }
 
 export async function logoutAction() {
-  const supabase = createClient();
-  await supabase.auth.signOut();
+  const cookieStore = cookies();
+  cookieStore.delete("session_email");
   revalidatePath("/", "layout");
   redirect("/");
 }
 
+// ── Team Actions ────────────────────────────────────────
+
 export async function createTeamAction(formData) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getSessionUser();
   if (!user) return { error: "Authentication failed. Command not recognized." };
 
+  const supabase = createClient();
   const squadName = formData.get("squadName");
   if (!squadName || squadName.length < 3) return { error: "Squad Name must be at least 3 characters." };
 
@@ -108,7 +202,10 @@ export async function createTeamAction(formData) {
     leader_id: user.id
   }).select("id").single();
 
-  if (teamError) return { error: "Failed to initialize squad." };
+  if (teamError) {
+    console.error("Team creation error:", teamError);
+    return { error: "Failed to initialize squad." };
+  }
 
   // Insert Member (Leader)
   const { error: memberError } = await supabase.from("team_members").insert({
@@ -117,7 +214,10 @@ export async function createTeamAction(formData) {
     role: "leader"
   });
 
-  if (memberError) return { error: "Squad created, but failed to assign roles." };
+  if (memberError) {
+    console.error("Member insert error:", memberError);
+    return { error: "Squad created, but failed to assign roles." };
+  }
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/team");
@@ -125,10 +225,10 @@ export async function createTeamAction(formData) {
 }
 
 export async function joinTeamAction(formData) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getSessionUser();
   if (!user) return { error: "Authentication failed. Command not recognized." };
 
+  const supabase = createClient();
   const inviteCode = formData.get("inviteCode");
   if (!inviteCode) return { error: "Invite code missing." };
 
@@ -145,7 +245,7 @@ export async function joinTeamAction(formData) {
   });
 
   if (memberError) {
-    if (memberError.code === "23505") return { error: "You are already in a squad." }; // Unique constraint
+    if (memberError.code === "23505") return { error: "You are already in a squad." };
     return { error: "Failed to join squad." };
   }
 
@@ -154,11 +254,13 @@ export async function joinTeamAction(formData) {
   return { success: true };
 }
 
+// ── Submission Actions ──────────────────────────────────
+
 export async function submitProjectAction(formData) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getSessionUser();
   if (!user) return { error: "Authentication failed. Command not recognized." };
 
+  const supabase = createClient();
   const title = formData.get("title");
   const description = formData.get("description");
   const repo_url = formData.get("repo_url");
@@ -190,22 +292,17 @@ export async function submitProjectAction(formData) {
 
   if (error) return { error: "Payload upload failed. Retrying sync..." };
 
-  // Log performance activity bonus
-  await supabase.from("performance_metrics").insert({
-    user_id: user.id,
-    day_of_week: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date().getDay()],
-    activity_level: 95
-  }).upsert({ user_id: user.id, day_of_week: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date().getDay()] }, { onConflict: "user_id, day_of_week" });
-
   revalidatePath("/dashboard/submit");
   return { success: true };
 }
 
+// ── Announcement Actions ────────────────────────────────
+
 export async function publishAnnouncementAction(formData) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getSessionUser();
   if (!user) return { error: "Authentication required." };
 
+  const supabase = createClient();
   const tag = formData.get("tag");
   const text = formData.get("text");
 
@@ -224,15 +321,60 @@ export async function publishAnnouncementAction(formData) {
 }
 
 export async function deleteAnnouncementAction(id) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getSessionUser();
   if (!user) return { error: "Authentication required." };
 
+  const supabase = createClient();
   const { error } = await supabase.from("announcements").delete().eq("id", id);
 
   if (error) return { error: "Failed to delete announcement." };
 
   revalidatePath("/dashboard");
   revalidatePath("/admin/announcements");
+  return { success: true };
+}
+
+// ── Problem Statement Actions ───────────────────────────
+
+export async function addProblemStatementAction(formData) {
+  const user = await getSessionUser();
+  if (!user) return { error: "Authentication required." };
+
+  const supabase = createClient();
+  const title = formData.get("title");
+  const description = formData.get("description");
+  const category = formData.get("category") || "GENERAL";
+  const difficulty = formData.get("difficulty") || "MEDIUM";
+
+  if (!title || !description) return { error: "Title and description are required." };
+
+  const { error } = await supabase.from("problem_statements").insert({
+    title,
+    description,
+    category: category.toUpperCase(),
+    difficulty,
+  });
+
+  if (error) {
+    console.error("Problem statement insert error:", error);
+    return { error: "Failed to add problem statement." };
+  }
+
+  revalidatePath("/admin/problems");
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+export async function deleteProblemStatementAction(id) {
+  const user = await getSessionUser();
+  if (!user) return { error: "Authentication required." };
+
+  const supabase = createClient();
+  const { error } = await supabase.from("problem_statements").delete().eq("id", id);
+
+  if (error) return { error: "Failed to delete problem statement." };
+
+  revalidatePath("/admin/problems");
+  revalidatePath("/dashboard");
   return { success: true };
 }

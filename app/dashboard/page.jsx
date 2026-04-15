@@ -1,12 +1,26 @@
 import Link from "next/link";
 import CountdownDash from "./CountdownDash";
 import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
 export const metadata = { title: "FINOVA 2.0 | MISSION_CONTROL" };
 
 export default async function DashboardPage() {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  // Get user from session cookie
+  const cookieStore = cookies();
+  const sessionEmail = cookieStore.get("session_email")?.value;
+
+  let user = null;
+  if (sessionEmail) {
+    const { data } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", sessionEmail)
+      .single();
+    user = data;
+  }
 
   // 1. Fetch announcements
   const { data: announcements } = await supabase
@@ -15,11 +29,16 @@ export default async function DashboardPage() {
     .order("created_at", { ascending: false })
     .limit(4);
 
-  // 2. Fetch user's team members
+  // 2. Fetch problem statements for dashboard display
+  const { data: problems } = await supabase
+    .from("problem_statements")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  // 3. Fetch user's team members
   let teamMembers = [];
   let userTeamId = null;
 
-  // Find their team_id 
   if (user) {
     const { data: userMember } = await supabase
       .from("team_members")
@@ -29,7 +48,6 @@ export default async function DashboardPage() {
 
     if (userMember?.team_id) {
       userTeamId = userMember.team_id;
-      // Get all users in that team
       const { data: members } = await supabase
         .from("team_members")
         .select(`
@@ -45,13 +63,13 @@ export default async function DashboardPage() {
         teamMembers = members.map(m => ({
           name: m.users.name,
           role: m.role,
-          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEcKWwyuv40UVxUYeTrniDm15pBOrjIQc1EQYZPaSwH5m0GgvQI_SchKQMY22C2Ke4hoAxiKgzM7uYoyo-XhCdEzChtzFN4OK0v5UO-jwpIdCFlc-XZrD2NqPxbPk7HnmCl1g3ID5nosNV1IQiP3L8YQsWH0PLE0zosjlVm0PVgkAasTQHNjcdvGfw1M0mp7D1CFZQJmJ2xrlGLY6ItHUxm9dO_GQKt2EA2zqzthoUjbAKS4e24qKB5TmpYlVvhAJJzpb2sIw-rVgS" // Reusing placeholder aesthetic profile
+          img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEcKWwyuv40UVxUYeTrniDm15pBOrjIQc1EQYZPaSwH5m0GgvQI_SchKQMY22C2Ke4hoAxiKgzM7uYoyo-XhCdEzChtzFN4OK0v5UO-jwpIdCFlc-XZrD2NqPxbPk7HnmCl1g3ID5nosNV1IQiP3L8YQsWH0PLE0zosjlVm0PVgkAasTQHNjcdvGfw1M0mp7D1CFZQJmJ2xrlGLY6ItHUxm9dO_GQKt2EA2zqzthoUjbAKS4e24qKB5TmpYlVvhAJJzpb2sIw-rVgS"
         }));
       }
     }
   }
 
-  // 3. Fetch performance metrics (fallback to empty array)
+  // 4. Fetch performance metrics (fallback to empty array)
   let metrics = [];
   if (user) {
     const { data: fetchedMetrics } = await supabase
@@ -64,14 +82,17 @@ export default async function DashboardPage() {
     }
   }
 
-  // The 7 days order
   const orderedDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  
-  // Create an array mapping activity_levels. 0 if no record found.
   const bars = orderedDays.map(day => {
     const record = metrics.find(m => m.day_of_week === day);
     return record ? record.activity_level : 0;
   });
+
+  const difficultyColor = {
+    EASY: "text-green-400 bg-green-400/10 border-green-400/30",
+    MEDIUM: "text-yellow-400 bg-yellow-400/10 border-yellow-400/30",
+    HARD: "text-red-400 bg-red-400/10 border-red-400/30",
+  };
 
   return (
     <div className="space-y-6">
@@ -83,7 +104,7 @@ export default async function DashboardPage() {
         <div className="flex items-center gap-3 mt-3">
           <div className="w-2 h-2 bg-primary animate-pulse" />
           <p className="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest">
-            Node_Status: OPERATIONAL // Hackathon_Mode // Uptime: 99.99% // USER: {user?.id.split('-')[0]}
+            Node_Status: OPERATIONAL // Hackathon_Mode // USER: {user?.name || "UNKNOWN"}
           </p>
         </div>
       </header>
@@ -105,7 +126,6 @@ export default async function DashboardPage() {
             <span className="material-symbols-outlined">upload_file</span>
             UPLOAD_PAYLOAD
           </Link>
-          {/* Corner accent */}
           <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/40" />
         </div>
 
@@ -124,6 +144,51 @@ export default async function DashboardPage() {
                <div className="text-xs text-on-surface-variant font-mono p-4 text-center border border-dashed border-outline-variant/20">NO COMMUNIQUES INTERCEPTED</div>
             )}
           </div>
+        </div>
+
+        {/* Problem Statements (12 cols) */}
+        <div className="border border-primary/10 bg-surface-container-low/40 p-6 md:col-span-12">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-sm uppercase tracking-widest text-secondary font-mono">
+              Problem Statements
+            </h2>
+            <span className="font-mono text-[10px] text-primary">{problems?.length || 0} ACTIVE</span>
+          </div>
+          {problems && problems.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-outline-variant/20">
+                    <th className="pb-3 font-mono text-[10px] uppercase tracking-widest text-primary/60 pr-4">#</th>
+                    <th className="pb-3 font-mono text-[10px] uppercase tracking-widest text-primary/60 pr-4">Title</th>
+                    <th className="pb-3 font-mono text-[10px] uppercase tracking-widest text-primary/60 pr-4">Category</th>
+                    <th className="pb-3 font-mono text-[10px] uppercase tracking-widest text-primary/60">Difficulty</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {problems.map((p, i) => (
+                    <tr key={p.id} className="border-b border-outline-variant/10 hover:bg-surface-container-high/50 transition-colors">
+                      <td className="py-3 pr-4 font-mono text-xs text-outline">{String(i + 1).padStart(2, "0")}</td>
+                      <td className="py-3 pr-4">
+                        <p className="text-sm text-white font-medium">{p.title}</p>
+                        <p className="text-xs text-on-surface-variant mt-1 line-clamp-2">{p.description}</p>
+                      </td>
+                      <td className="py-3 pr-4 font-mono text-[10px] uppercase tracking-wider text-on-surface-variant">{p.category}</td>
+                      <td className="py-3">
+                        <span className={`font-mono text-[10px] px-2 py-1 border ${difficultyColor[p.difficulty] || difficultyColor.MEDIUM}`}>
+                          {p.difficulty}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-xs text-on-surface-variant font-mono p-4 text-center border border-dashed border-outline-variant/20">
+              NO PROBLEM STATEMENTS DEPLOYED YET
+            </div>
+          )}
         </div>
 
         {/* Team (6 cols) */}

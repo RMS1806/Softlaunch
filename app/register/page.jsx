@@ -82,23 +82,15 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className={labelCls}>Roll_ID</label>
-                  <input className={inputCls} placeholder="21XXXXXX" type="text" name="roll" required />
-                </div>
-                <div>
-                  <label className={labelCls}>Sector_Branch</label>
-                  <select className={inputCls} name="branch" defaultValue="CSE">
-                    {["CSE", "IT", "CCE", "DSE", "OTHER"].map((b) => (
-                      <option key={b} className="bg-surface-container">{b}</option>
-                    ))}
-                  </select>
+                  <input className={inputCls} placeholder="21XXXXXXXX" type="text" name="roll" required />
                 </div>
                 <div>
                   <label className={labelCls}>Pilot_Year</label>
-                  <select className={inputCls} name="year" defaultValue="2022">
-                    {["2021", "2022", "2023", "2024"].map((y) => (
+                  <select className={inputCls} name="year" defaultValue="1">
+                    {["1", "2", "3", "4"].map((y) => (
                       <option key={y} className="bg-surface-container">{y}</option>
                     ))}
                   </select>

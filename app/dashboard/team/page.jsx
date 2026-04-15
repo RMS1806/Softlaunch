@@ -1,12 +1,26 @@
 import { createClient } from "@/lib/supabase/server";
 import TeamMemberSlot from "@/components/TeamMemberSlot";
 import TeamForms from "./TeamForms";
+import { cookies } from "next/headers";
 
 export const metadata = { title: "FINOVA 2.0 | TEAM_PROTOCOL" };
 
 export default async function TeamPage() {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  // Get user from session cookie
+  const cookieStore = cookies();
+  const sessionEmail = cookieStore.get("session_email")?.value;
+
+  let user = null;
+  if (sessionEmail) {
+    const { data } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", sessionEmail)
+      .single();
+    user = data;
+  }
 
   let teamMembers = [];
   let userTeamId = null;
@@ -37,7 +51,6 @@ export default async function TeamPage() {
           users (
             id,
             name,
-            branch,
             year
           )
         `)
@@ -47,7 +60,6 @@ export default async function TeamPage() {
         teamMembers = members.map(m => ({
           name: m.users.name,
           role: m.role,
-          branch: m.users.branch,
           year: m.users.year,
           img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEcKWwyuv40UVxUYeTrniDm15pBOrjIQc1EQYZPaSwH5m0GgvQI_SchKQMY22C2Ke4hoAxiKgzM7uYoyo-XhCdEzChtzFN4OK0v5UO-jwpIdCFlc-XZrD2NqPxbPk7HnmCl1g3ID5nosNV1IQiP3L8YQsWH0PLE0zosjlVm0PVgkAasTQHNjcdvGfw1M0mp7D1CFZQJmJ2xrlGLY6ItHUxm9dO_GQKt2EA2zqzthoUjbAKS4e24qKB5TmpYlVvhAJJzpb2sIw-rVgS"
         }));
@@ -70,7 +82,6 @@ export default async function TeamPage() {
       {teamMembers.length > 0 ? (
         <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-5">
           {teamMembers.map((m, i) => <TeamMemberSlot key={i} member={m} />)}
-          {/* Add empty slots up to 5 */}
           {Array.from({ length: Math.max(0, 5 - teamMembers.length) }).map((_, i) => (
              <div key={`empty-${i}`} className="flex flex-col items-center justify-center border border-dashed border-outline-variant/30 bg-surface-container-low/50 p-6 min-h-[200px]">
                <span className="material-symbols-outlined text-outline-variant/50 text-4xl mb-2">person_add</span>
@@ -85,7 +96,6 @@ export default async function TeamPage() {
         </div>
       )}
 
-      {/* Forms if no team */}
       {!userTeamId && <TeamForms />}
 
     </section>
